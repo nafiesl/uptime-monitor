@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MonitoringLog;
+
 class MonitoringController extends Controller
 {
     public function timeline()
