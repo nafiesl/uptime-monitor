@@ -8,7 +8,7 @@ class MonitoringController extends Controller
 {
     public function timeline()
     {
-        $logs = MonitoringLog::orderBy('created_at', 'desc')->paginate();
+        $logs = MonitoringLog::orderBy('created_at', 'desc')->paginate(100);
 
         return view('timeline', compact('logs'));
     }

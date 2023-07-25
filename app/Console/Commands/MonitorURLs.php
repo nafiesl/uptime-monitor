@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class MonitorURLs extends Command
@@ -19,11 +20,14 @@ class MonitorURLs extends Command
 
         foreach ($customerSites as $customerSite) {
             $start = microtime(true);
-            $response = Http::connectTimeout(20)->get($customerSite->url);
+            try {
+                $response = Http::timeout(10)->get($customerSite->url);
+                $statusCode = $response->status();
+            } catch (ConnectionException $e) {
+                $statusCode = 500;
+            }
             $end = microtime(true);
             $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
-
-            $statusCode = $response->status();
 
             // Log the monitoring result to the database
             MonitoringLog::create([
