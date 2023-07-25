@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -14,11 +15,11 @@ class MonitorURLs extends Command
 
     public function handle()
     {
-        $urls = ['https://google.com', 'https://yahoo.com']; // Add your desired URLs here
+        $customerSites = CustomerSite::where('is_active', 1)->get(); // Add your desired URLs here
 
-        foreach ($urls as $url) {
+        foreach ($customerSites as $customerSite) {
             $start = microtime(true);
-            $response = Http::get($url);
+            $response = Http::connectTimeout(20)->get($customerSite->url);
             $end = microtime(true);
             $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
 
@@ -26,7 +27,8 @@ class MonitorURLs extends Command
 
             // Log the monitoring result to the database
             MonitoringLog::create([
-                'url' => $url,
+                'customer_site_id' => $customerSite->id,
+                'url' => $customerSite->url,
                 'response_time' => $responseTime,
                 'status_code' => $statusCode,
             ]);

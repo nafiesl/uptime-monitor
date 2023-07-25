@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monitoring_logs', function (Blueprint $table) {
+        Schema::create('customer_sites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_site_id')->constrained();
+            $table->string('name');
             $table->string('url');
-            $table->integer('response_time')->nullable();
-            $table->integer('status_code')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monitoring_logs');
+        Schema::dropIfExists('customer_sites');
     }
 };
