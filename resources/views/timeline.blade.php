@@ -9,18 +9,31 @@
 <body>
     <div class="container">
         <h1>Uptime Monitor</h1>
-        <table class="table table-sm">
-            <tbody>
-                @foreach ($logs as $key => $monitoringLog)
-                <tr>
-                    <td>{{ $key++ }}</td>
-                    <td>{{ $monitoringLog->url }}</td>
-                    <td>{{ $monitoringLog->response_time }}</td>
-                    <td>{{ $monitoringLog->status_code }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>URL</th>
+                            <th>Response Time</th>
+                            <th>Status Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($logs as $key => $monitoringLog)
+                        <tr>
+                            <td class="text-center">{{ ++$key }}</td>
+                            <td>{{ $monitoringLog->url }}</td>
+                            <td class="text-right">{{ number_format($monitoringLog->response_time, 0) }}</td>
+                            <td class="text-center">{{ $monitoringLog->status_code }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $logs->links() }}
+            </div>
+        </div>
     </div>
 </body>
 </html>
