@@ -7,6 +7,13 @@ use App\Models\MonitoringLog;
 
 class MonitoringController extends Controller
 {
+    public function index()
+    {
+        $customerSites = CustomerSite::orderBy('name')->with('latestLogs')->get();
+
+        return view('monitoring.index', compact('customerSites'));
+    }
+
     public function timeline()
     {
         $customerSites = CustomerSite::orderBy('name')->pluck('name', 'id');

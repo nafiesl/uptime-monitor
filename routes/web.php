@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MonitoringController::class, 'index'])->name('monitoring.index');
 
 Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
