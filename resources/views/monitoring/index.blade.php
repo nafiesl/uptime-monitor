@@ -12,7 +12,6 @@
             <h1 class="page-title">Uptime Monitor</h1>
         </div>
 
-
         @foreach ($customerSites->chunk(3) as $chunkedCustomerSites)
             <div class="row mb-4">
                 @foreach ($chunkedCustomerSites as $customerSite)
@@ -34,7 +33,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($customerSite->latestLogs as $monitoringLog)
+                                        @foreach ($customerSite->latestLogs()->limit(5)->get() as $monitoringLog)
                                         <tr>
                                             <td>{{ number_format($monitoringLog->response_time, 0) }}</td>
                                             <td class="text-center">{{ $monitoringLog->status_code }}</td>

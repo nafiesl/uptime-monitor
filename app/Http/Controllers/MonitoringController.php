@@ -9,7 +9,7 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        $customerSites = CustomerSite::orderBy('name')->with('latestLogs')->get();
+        $customerSites = CustomerSite::orderBy('name')->get();
 
         return view('monitoring.index', compact('customerSites'));
     }
