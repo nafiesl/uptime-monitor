@@ -19,9 +19,7 @@ Route::view('/', 'auth.login')->middleware('guest');
 Auth::routes(['register' => false, 'reset' => false]);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
+    Route::get('/home', [MonitoringController::class, 'index'])->name('home');
 
     Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
