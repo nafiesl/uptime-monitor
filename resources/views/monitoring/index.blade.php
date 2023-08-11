@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-</div>
-<div class="container-fluid">
 
 <div class="page-header mt-0 mb-4">
     <h1 class="page-title">Uptime Monitor</h1>
