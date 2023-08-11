@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MonitoringController::class, 'index'])->name('monitoring.index');
+Route::view('/', 'auth.login')->middleware('guest');
 
-Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+Auth::routes(['register' => false, 'reset' => false]);
 
-Auth::routes();
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
+
+    Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
