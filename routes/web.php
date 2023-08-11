@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MonitoringController::class, 'index'])->name('monitoring.index');
+Route::view('/', 'auth.login')->middleware('guest');
 
-Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+Auth::routes(['register' => false, 'reset' => false]);
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', [MonitoringController::class, 'index'])->name('home');
+
+    Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+});
