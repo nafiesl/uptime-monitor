@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MonitoringController::class, 'index'])->name('monitoring.index');
 
 Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
