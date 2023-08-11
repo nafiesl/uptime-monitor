@@ -7,7 +7,7 @@
         {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}
             <label for="customer_site_id">Customer Site</label>
             <div class="col-12">
-                {{ Form::select('customer_site_id', $customerSites->prepend('-- All sites --'), request('customer_site_id'), ['class' => 'form-select']) }}
+                {{ Form::select('customer_site_id', $customerSites, request('customer_site_id'), ['placeholder' => '-- All sites --', 'class' => 'form-select']) }}
             </div>
             <div class="col-12">
                 {{ Form::submit('View Report', ['class' => 'btn btn-info mr-1']) }}
