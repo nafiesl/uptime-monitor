@@ -14,6 +14,11 @@ class MonitoringController extends Controller
         return view('monitoring.index', compact('customerSites'));
     }
 
+    public function test()
+    {
+        return view('test');
+    }
+
     public function timeline()
     {
         $customerSites = CustomerSite::orderBy('name')->pluck('name', 'id');
