@@ -62,7 +62,7 @@
         chart: {
             id: 'line-datetime',
             type: 'line',
-            height: 350,
+            height: 400,
             zoom: {
                 autoScaleYaxis: true
             }
@@ -70,26 +70,13 @@
         annotations: {
             yaxis: [{
                 y: 5000,
-                borderColor: '#999',
+                borderColor: 'red',
                 label: {
                     show: true,
                     text: 'Trashold',
                     style: {
                         color: "#fff",
-                        background: '#00E396'
-                    }
-                }
-            }],
-            xaxis: [{
-                x: new Date("{{ Carbon::now() }}").getTime(),
-                borderColor: '#999',
-                yAxisIndex: 0,
-                label: {
-                    show: true,
-                    text: 'Now',
-                    style: {
-                        color: "#fff",
-                        background: '#775DD0'
+                        background: 'red'
                     }
                 }
             }]
@@ -103,9 +90,11 @@
         },
         xaxis: {
             type: 'datetime',
-            min: new Date("{{ Carbon::today() }}").getTime(),
+            min: new Date("{{ Carbon::yesterday() }}").getTime(),
             max: new Date("{{ Carbon::tomorrow() }}").getTime(),
-            tickAmount: 6,
+            labels: {
+                datetimeUTC: false,
+            },
         },
         stroke: {
           width: [2]
