@@ -70,13 +70,13 @@
         annotations: {
             yaxis: [{
                 y: 5000,
-                borderColor: 'red',
+                borderColor: 'orange',
                 label: {
                     show: true,
                     text: 'Trashold',
                     style: {
                         color: "#fff",
-                        background: 'red'
+                        background: 'orange'
                     }
                 }
             }]
@@ -94,6 +94,15 @@
             max: new Date("{{ Carbon::tomorrow() }}").getTime(),
             labels: {
                 datetimeUTC: false,
+            },
+            title: {
+                text: 'Datetime',
+            },
+        },
+        yaxis: {
+            tickAmount: 10,
+            title: {
+                text: 'Miliseconds',
             },
         },
         stroke: {
