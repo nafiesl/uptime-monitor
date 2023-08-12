@@ -24,3 +24,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
 });
+
+/*
+ * CustomerSites Routes
+ */
+Route::resource('customer_sites', App\Http\Controllers\CustomerSiteController::class);

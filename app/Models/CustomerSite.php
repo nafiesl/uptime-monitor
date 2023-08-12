@@ -10,6 +10,8 @@ class CustomerSite extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'url', 'is_active'];
+
     public function latestLogs()
     {
         return $this->hasMany(MonitoringLog::class)->latest();
