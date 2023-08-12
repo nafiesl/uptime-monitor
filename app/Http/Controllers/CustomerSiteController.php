@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
+use App\Models\MonitoringLog;
 use Illuminate\Http\Request;
 
 class CustomerSiteController extends Controller
@@ -41,7 +42,17 @@ class CustomerSiteController extends Controller
 
     public function show(CustomerSite $customerSite)
     {
-        return view('customer_sites.show', compact('customerSite'));
+        $logQuery = MonitoringLog::query();
+        $logQuery->where('customer_site_id', $customerSite->id);
+        $logQuery->whereBetween('created_at', ['2023-08-01', '2023-08-31']);
+        $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
+
+        $chartData = [];
+        foreach ($monitoringLogs as $monitoringLog) {
+            $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
+        }
+
+        return view('customer_sites.show', compact('customerSite', 'chartData'));
     }
 
     public function edit(CustomerSite $customerSite)
