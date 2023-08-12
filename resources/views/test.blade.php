@@ -81,12 +81,12 @@
                 }
             }],
             xaxis: [{
-                x: new Date('12 Aug 2023').getTime(),
+                x: new Date("{{ Carbon::now() }}").getTime(),
                 borderColor: '#999',
                 yAxisIndex: 0,
                 label: {
                     show: true,
-                    text: 'Rally',
+                    text: 'Now',
                     style: {
                         color: "#fff",
                         background: '#775DD0'
@@ -103,9 +103,12 @@
         },
         xaxis: {
             type: 'datetime',
-            min: new Date('11 Aug 2023').getTime(),
-            max: new Date('13 Aug 2023').getTime(),
+            min: new Date("{{ Carbon::today() }}").getTime(),
+            max: new Date("{{ Carbon::tomorrow() }}").getTime(),
             tickAmount: 6,
+        },
+        stroke: {
+          width: [2]
         },
         tooltip: {
             x: {
