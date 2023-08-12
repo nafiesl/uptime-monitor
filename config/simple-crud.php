@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'base_test_path' => 'tests/BrowserKitTest.php',
+    'base_test_path' => 'tests/TestCase.php',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +34,6 @@ return [
     |
     */
 
-    'base_test_class' => 'Tests\BrowserKitTest',
+    'base_test_class' => 'Tests\TestCase',
 
 ];
