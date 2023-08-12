@@ -11,7 +11,17 @@
         @foreach ($chunkedCustomerSites as $customerSite)
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">{{ $customerSite->name }}</div>
+                    <div class="card-header">
+                        @can('view', $customerSite)
+                            {{ link_to_route(
+                                'customer_sites.show',
+                                __('app.show'),
+                                [$customerSite],
+                                ['id' => 'show-customer_site-' . $customerSite->id, 'class' => 'float-end']
+                            ) }}
+                        @endcan
+                        {{ $customerSite->name }}
+                    </div>
                     <div class="card-body">
                         <ul class="pl-1">
                             <li>URL: {{ $customerSite->url }}</li>

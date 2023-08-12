@@ -23,4 +23,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/test', [MonitoringController::class, 'test'])->name('test');
 
     Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
+
+    Route::resource('customer_sites', App\Http\Controllers\CustomerSiteController::class);
 });
