@@ -42,7 +42,7 @@
     @foreach ($customerSites as $customerSite)
         @php
             $monitoringLogs = $customerSite->monitoringLogs()
-                ->whereBetween('created_at', ['2023-08-01', '2023-08-31'])
+                ->whereBetween('created_at', [Carbon::now()->subHours(6), Carbon::now()])
                 ->get(['response_time', 'created_at']);
             $chartData = [];
             foreach ($monitoringLogs as $monitoringLog) {
@@ -84,8 +84,8 @@
             },
             xaxis: {
                 type: 'datetime',
-                min: new Date("{{ Carbon::yesterday() }}").getTime(),
-                max: new Date("{{ Carbon::tomorrow() }}").getTime(),
+                min: new Date("{{ Carbon::now()->subHours(6)->format('Y-m-d H:i:s') }}").getTime(),
+                max: new Date("{{ Carbon::now()->format('Y-m-d H:i:s') }}").getTime(),
                 labels: {
                     datetimeUTC: false,
                 },
