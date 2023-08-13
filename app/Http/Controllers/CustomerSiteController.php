@@ -44,10 +44,16 @@ class CustomerSiteController extends Controller
     public function show(Request $request, CustomerSite $customerSite)
     {
         $startTime = Carbon::now()->subHour();
+        if ($request->get('start_time')) {
+            $startTime = Carbon::parse($request->get('start_time'));
+        }
         if ($request->get('start_timestamp')) {
             $startTime = Carbon::createFromTimestamp($request->get('start_timestamp'));
         }
         $endTime = Carbon::now();
+        if ($request->get('start_time')) {
+            $endTime = Carbon::parse($request->get('end_time'));
+        }
         if ($request->get('start_timestamp')) {
             $endTime = Carbon::createFromTimestamp($request->get('end_timestamp'));
         }

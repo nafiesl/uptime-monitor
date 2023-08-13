@@ -30,7 +30,7 @@
 <br>
 <div class="card">
     <div class="card-body">
-        <div class="btn-group" role="group">
+        <div class="btn-group mb-3" role="group">
             {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(1)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
             {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
             {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(24)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
@@ -40,14 +40,41 @@
             {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'start_timestamp' => Carbon::now()->subMonths(3)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
             {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'start_timestamp' => Carbon::now()->subMonths(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
         </div>
-        <div id="chart_timestampline_{{ $customerSite->id }}"></div>
+        <div class="float-end">
+            {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}
+            <div class="col-12">
+                {{ Form::text('start_time', $startTime->format('Y-m-d H:i'), ['class' => 'date_time_select form-control', 'style' => 'width:150px']) }}
+            </div>
+            <div class="col-12">
+                {{ Form::text('end_time', $endTime->format('Y-m-d H:i'), ['class' => 'date_time_select form-control', 'style' => 'width:150px']) }}
+            </div>
+            <div class="col-12">
+                {{ Form::submit('View Report', ['class' => 'btn btn-info mr-1']) }}
+                {{ link_to_route('customer_sites.show', __('app.reset'), $customerSite, ['class' => 'btn btn-secondary']) }}
+            </div>
+            {{ Form::close() }}
+        </div>
+
+        <div id="chart_timeline_{{ $customerSite->id }}"></div>
     </div>
 </div>
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ url('css/plugins/jquery.datetimepicker.css') }}">
+@endpush
+
 @push('scripts')
+<script src="{{ url('js/jquery.min.js') }}"></script>
+<script src="{{ url('js/plugins/jquery.datetimepicker.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    $('.date_time_select').datetimepicker({
+        format:'Y-m-d H:i',
+        closeOnTimeSelect: true,
+        scrollInput: false,
+        dayOfWeekStart: 1
+    });
     var options = {
         series: [{
             data: {!! json_encode($chartData) !!}
@@ -104,7 +131,7 @@
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart_timestampline_{{ $customerSite->id }}"), options);
+    var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $customerSite->id }}"), options);
     chart.render();
 </script>
 @endpush
