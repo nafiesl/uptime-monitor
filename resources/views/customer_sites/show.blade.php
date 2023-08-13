@@ -31,16 +31,16 @@
 <div class="card">
     <div class="card-body">
         <div class="btn-group" role="group">
-            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'start_time' => Carbon::now()->subHours(1)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'start_time' => Carbon::now()->subHours(6)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'start_time' => Carbon::now()->subHours(24)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'start_time' => Carbon::now()->subDays(7)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'start_time' => Carbon::now()->subDays(14)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'start_time' => Carbon::now()->subDays(30)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'start_time' => Carbon::now()->subMonths(3)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
-            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'start_time' => Carbon::now()->subMonths(6)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(1)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'start_timestamp' => Carbon::now()->subHours(24)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'start_timestamp' => Carbon::now()->subDays(7)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'start_timestamp' => Carbon::now()->subDays(14)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'start_timestamp' => Carbon::now()->subDays(30)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'start_timestamp' => Carbon::now()->subMonths(3)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'start_timestamp' => Carbon::now()->subMonths(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
         </div>
-        <div id="chart_timeline_{{ $customerSite->id }}"></div>
+        <div id="chart_timestampline_{{ $customerSite->id }}"></div>
     </div>
 </div>
 @endsection
@@ -104,7 +104,7 @@
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $customerSite->id }}"), options);
+    var chart = new ApexCharts(document.querySelector("#chart_timestampline_{{ $customerSite->id }}"), options);
     chart.render();
 </script>
 @endpush
