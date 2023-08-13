@@ -78,10 +78,6 @@
             dataLabels: {
                 enabled: false
             },
-            markers: {
-                size: 0,
-                style: 'hollow',
-            },
             xaxis: {
                 type: 'datetime',
                 min: new Date("{{ Carbon::now()->subHours(6)->format('Y-m-d H:i:s') }}").getTime(),

@@ -77,10 +77,6 @@
         dataLabels: {
             enabled: false
         },
-        markers: {
-            size: 0,
-            style: 'hollow',
-        },
         xaxis: {
             type: 'datetime',
             min: new Date("{{ $startTime->format('Y-m-d H:i:s') }}").getTime(),
