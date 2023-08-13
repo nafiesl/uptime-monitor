@@ -6,34 +6,32 @@
     <h1 class="page-title">Uptime Monitor</h1>
 </div>
 
-@foreach ($customerSites->chunk(2) as $chunkedCustomerSites)
-    <div class="row mb-4">
-        @foreach ($chunkedCustomerSites as $customerSite)
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        @can('view', $customerSite)
-                            {{ link_to_route(
-                                'customer_sites.show',
-                                __('app.show'),
-                                [$customerSite],
-                                ['id' => 'show-customer_site-' . $customerSite->id, 'class' => 'float-end']
-                            ) }}
-                        @endcan
-                        {{ $customerSite->name }}
-                    </div>
-                    <div class="card-body">
-                        <ul class="pl-1">
-                            <li>URL: {{ $customerSite->url }}</li>
-                        </ul>
-                        <hr>
-                        <div id="chart_timeline_{{ $customerSite->id }}"></div>
-                    </div>
+<div class="row mb-4">
+    @foreach ($customerSites as $customerSite)
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    @can('view', $customerSite)
+                        {{ link_to_route(
+                            'customer_sites.show',
+                            __('app.show'),
+                            [$customerSite, 'start_timestamp' => Carbon::now()->subHours(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp],
+                            ['id' => 'show-customer_site-' . $customerSite->id, 'class' => 'float-end']
+                        ) }}
+                    @endcan
+                    {{ $customerSite->name }}
+                </div>
+                <div class="card-body">
+                    <ul class="pl-1">
+                        <li>URL: {{ $customerSite->url }}</li>
+                    </ul>
+                    <hr>
+                    <div id="chart_timeline_{{ $customerSite->id }}"></div>
                 </div>
             </div>
-        @endforeach
-    </div>
-@endforeach
+        </div>
+    @endforeach
+</div>
 @endsection
 
 @push('scripts')
