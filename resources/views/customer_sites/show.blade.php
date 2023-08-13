@@ -27,53 +27,24 @@
         </div>
     </div>
 </div>
-
+<br>
 <div class="card">
     <div class="card-body">
-        <div id="chart">
-            <div class="toolbar">
-                <button id="one_month">1M</button>
-                <button id="six_months">6M</button>
-                <button id="one_year"class="active">1Y</button>
-                <button id="ytd">YTD</button>
-                <button id="all">ALL</button>
-            </div>
-
-            <div id="chart-timeline"></div>
+        <div class="btn-group" role="group">
+            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'start_time' => Carbon::now()->subHours(1)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'start_time' => Carbon::now()->subHours(6)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'start_time' => Carbon::now()->subHours(24)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'start_time' => Carbon::now()->subDays(7)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'start_time' => Carbon::now()->subDays(14)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'start_time' => Carbon::now()->subDays(30)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'start_time' => Carbon::now()->subMonths(3)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
+            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'start_time' => Carbon::now()->subMonths(6)->timestamp, 'end_time' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary']) }}
         </div>
+        <div id="chart_timeline_{{ $customerSite->id }}"></div>
     </div>
 </div>
 @endsection
 
-@push('styles')
-
-<style>
-    .toolbar {
-        margin-left: 45px;
-    }
-
-    button {
-        background: #fff;
-        color: #222;
-        border: 1px solid #e7e7e7;
-        border-bottom: 2px solid #ddd;
-        border-radius: 2px;
-        padding: 4px 17px;
-    }
-
-    button.active {
-        color: #fff;
-        background: #008FFB;
-        border: 1px solid blue;
-        border-bottom: 2px solid blue;
-    }
-
-    button:focus {
-        outline: 0;
-    }
-
-</style>
-@endpush()
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
@@ -112,8 +83,8 @@
         },
         xaxis: {
             type: 'datetime',
-            min: new Date("{{ Carbon::yesterday() }}").getTime(),
-            max: new Date("{{ Carbon::tomorrow() }}").getTime(),
+            min: new Date("{{ $startTime->format('Y-m-d H:i:s') }}").getTime(),
+            max: new Date("{{ $endTime->format('Y-m-d H:i:s') }}").getTime(),
             labels: {
                 datetimeUTC: false,
             },
@@ -137,17 +108,7 @@
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart-timeline"), options);
+    var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $customerSite->id }}"), options);
     chart.render();
-
-
-    var resetCssClasses = function(activeEl) {
-        var els = document.querySelectorAll('button')
-        Array.prototype.forEach.call(els, function(el) {
-            el.classList.remove('active')
-        })
-
-        activeEl.target.classList.add('active')
-    }
 </script>
 @endpush

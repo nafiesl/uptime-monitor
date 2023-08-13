@@ -16,4 +16,9 @@ class CustomerSite extends Model
     {
         return $this->hasMany(MonitoringLog::class)->latest();
     }
+
+    public function monitoringLogs()
+    {
+        return $this->hasMany(MonitoringLog::class);
+    }
 }
