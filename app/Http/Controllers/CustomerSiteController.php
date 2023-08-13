@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CustomerSiteController extends Controller
@@ -40,11 +41,25 @@ class CustomerSiteController extends Controller
         return redirect()->route('customer_sites.show', $customerSite);
     }
 
-    public function show(CustomerSite $customerSite)
+    public function show(Request $request, CustomerSite $customerSite)
     {
+        $startTime = Carbon::now()->subHour();
+        if ($request->get('start_time')) {
+            $startTime = Carbon::parse($request->get('start_time'));
+        }
+        if ($request->get('start_timestamp')) {
+            $startTime = Carbon::createFromTimestamp($request->get('start_timestamp'));
+        }
+        $endTime = Carbon::now();
+        if ($request->get('start_time')) {
+            $endTime = Carbon::parse($request->get('end_time'));
+        }
+        if ($request->get('start_timestamp')) {
+            $endTime = Carbon::createFromTimestamp($request->get('end_timestamp'));
+        }
         $logQuery = MonitoringLog::query();
         $logQuery->where('customer_site_id', $customerSite->id);
-        $logQuery->whereBetween('created_at', ['2023-08-01', '2023-08-31']);
+        $logQuery->whereBetween('created_at', [$startTime, $endTime]);
         $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
 
         $chartData = [];
@@ -52,7 +67,7 @@ class CustomerSiteController extends Controller
             $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
         }
 
-        return view('customer_sites.show', compact('customerSite', 'chartData'));
+        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime'));
     }
 
     public function edit(CustomerSite $customerSite)
