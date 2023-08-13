@@ -6,10 +6,10 @@
     <h1 class="page-title">Uptime Monitor</h1>
 </div>
 
-@foreach ($customerSites->chunk(3) as $chunkedCustomerSites)
+@foreach ($customerSites->chunk(2) as $chunkedCustomerSites)
     <div class="row mb-4">
         @foreach ($chunkedCustomerSites as $customerSite)
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         @can('view', $customerSite)
@@ -27,25 +27,7 @@
                             <li>URL: {{ $customerSite->url }}</li>
                         </ul>
                         <hr>
-                        <h5>Latest logs</h5>
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th class="text-center">Status</th>
-                                    <th>Created at</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($customerSite->latestLogs()->limit(5)->get() as $monitoringLog)
-                                <tr>
-                                    <td>{{ number_format($monitoringLog->response_time, 0) }}</td>
-                                    <td class="text-center">{{ $monitoringLog->status_code }}</td>
-                                    <td>{{ $monitoringLog->created_at }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div id="chart_timeline_{{ $customerSite->id }}"></div>
                     </div>
                 </div>
             </div>
@@ -53,3 +35,82 @@
     </div>
 @endforeach
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    @foreach ($customerSites as $customerSite)
+        @php
+            $monitoringLogs = $customerSite->monitoringLogs()
+                ->whereBetween('created_at', ['2023-08-01', '2023-08-31'])
+                ->get(['response_time', 'created_at']);
+            $chartData = [];
+            foreach ($monitoringLogs as $monitoringLog) {
+                $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
+            }
+        @endphp
+        var options = {
+            series: [{
+                data: {!! json_encode($chartData) !!}
+            }],
+            chart: {
+                id: 'line-datetime',
+                type: 'line',
+                height: 250,
+                zoom: {
+                    autoScaleYaxis: true
+                }
+            },
+            annotations: {
+                yaxis: [{
+                    y: 5000,
+                    borderColor: 'orange',
+                    label: {
+                        show: true,
+                        text: 'Trashold',
+                        style: {
+                            color: "#fff",
+                            background: 'orange'
+                        }
+                    }
+                }]
+            },
+            dataLabels: {
+                enabled: false
+            },
+            markers: {
+                size: 0,
+                style: 'hollow',
+            },
+            xaxis: {
+                type: 'datetime',
+                min: new Date("{{ Carbon::yesterday() }}").getTime(),
+                max: new Date("{{ Carbon::tomorrow() }}").getTime(),
+                labels: {
+                    datetimeUTC: false,
+                },
+                title: {
+                    text: 'Datetime',
+                },
+            },
+            yaxis: {
+                tickAmount: 6,
+                title: {
+                    text: 'Miliseconds',
+                },
+            },
+            stroke: {
+              width: [2]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd MMM yyyy'
+                }
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $customerSite->id }}"), options);
+        chart.render();
+    @endforeach
+</script>
+@endpush
