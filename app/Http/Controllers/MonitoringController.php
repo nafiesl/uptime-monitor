@@ -37,7 +37,7 @@ class MonitoringController extends Controller
         if (request('customer_site_id')) {
             $logQuery->where('customer_site_id', request('customer_site_id'));
         }
-        $logs = $logQuery->orderBy('created_at', 'desc')->with('customerSite')->paginate(100);
+        $logs = $logQuery->orderBy('created_at', 'desc')->with('customerSite')->paginate(60);
 
         return view('timeline', compact('logs', 'customerSites'));
     }
