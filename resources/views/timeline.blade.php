@@ -43,7 +43,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $logs->links() }}
+        {{ $logs->appends(Request::except('page'))->links() }}
     </div>
 </div>
 
