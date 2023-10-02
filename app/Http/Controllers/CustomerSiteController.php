@@ -44,6 +44,7 @@ class CustomerSiteController extends Controller
     public function show(Request $request, CustomerSite $customerSite)
     {
         $startTime = Carbon::now()->subHour();
+        $timeRange = request('time_range', '1h');
         if ($request->get('start_time')) {
             $startTime = Carbon::parse($request->get('start_time'));
         }
@@ -67,7 +68,7 @@ class CustomerSiteController extends Controller
             $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
         }
 
-        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime'));
+        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime', 'timeRange'));
     }
 
     public function edit(CustomerSite $customerSite)
