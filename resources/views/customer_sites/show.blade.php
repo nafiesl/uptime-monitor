@@ -31,14 +31,14 @@
 <div class="card">
     <div class="card-body">
         <div class="btn-group mb-3" role="group">
-            {{ link_to_route('customer_sites.show', '1h', ['time_range' => '1h', $customerSite, 'start_timestamp' => Carbon::now()->subHours(1)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '1h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '6h', ['time_range' => '6h', $customerSite, 'start_timestamp' => Carbon::now()->subHours(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '6h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '24h', ['time_range' => '24h', $customerSite, 'start_timestamp' => Carbon::now()->subHours(24)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '24h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '7d', ['time_range' => '7d', $customerSite, 'start_timestamp' => Carbon::now()->subDays(7)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '7d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '14d', ['time_range' => '14d', $customerSite, 'start_timestamp' => Carbon::now()->subDays(14)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '14d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '30d', ['time_range' => '30d', $customerSite, 'start_timestamp' => Carbon::now()->subDays(30)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '30d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '3Mo', ['time_range' => '3Mo', $customerSite, 'start_timestamp' => Carbon::now()->subMonths(3)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '3Mo' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '6Mo', ['time_range' => '6Mo', $customerSite, 'start_timestamp' => Carbon::now()->subMonths(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp], ['class' => 'btn btn-outline-primary'.($timeRange == '6Mo' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'time_range' => '1h'], ['class' => 'btn btn-outline-primary'.($timeRange == '1h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'time_range' => '6h'], ['class' => 'btn btn-outline-primary'.($timeRange == '6h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'time_range' => '24h'], ['class' => 'btn btn-outline-primary'.($timeRange == '24h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'time_range' => '7d'], ['class' => 'btn btn-outline-primary'.($timeRange == '7d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'time_range' => '14d'], ['class' => 'btn btn-outline-primary'.($timeRange == '14d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'time_range' => '30d'], ['class' => 'btn btn-outline-primary'.($timeRange == '30d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'time_range' => '3Mo'], ['class' => 'btn btn-outline-primary'.($timeRange == '3Mo' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'time_range' => '6Mo'], ['class' => 'btn btn-outline-primary'.($timeRange == '6Mo' ? ' active' : '')]) }}
         </div>
         <div class="float-end">
             {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}

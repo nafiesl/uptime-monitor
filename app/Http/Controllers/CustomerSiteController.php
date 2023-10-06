@@ -45,18 +45,39 @@ class CustomerSiteController extends Controller
     {
         $startTime = Carbon::now()->subHour();
         $timeRange = request('time_range', '1h');
-        if ($request->get('start_time')) {
-            $startTime = Carbon::parse($request->get('start_time'));
+        switch ($timeRange) {
+            case '6h':
+                $startTime = Carbon::now()->subHours(6);
+                break;
+            case '24h':
+                $startTime = Carbon::now()->subHours(24);
+                break;
+            case '7d':
+                $startTime = Carbon::now()->subDays(7);
+                break;
+            case '14d':
+                $startTime = Carbon::now()->subDays(14);
+                break;
+            case '30d':
+                $startTime = Carbon::now()->subDays(30);
+                break;
+            case '3Mo':
+                $startTime = Carbon::now()->subMonths(3);
+                break;
+            case '6Mo':
+                $startTime = Carbon::now()->subMonths(6);
+                break;
+            default:
+                $startTime = Carbon::now()->subHours(1);
+                break;
         }
-        if ($request->get('start_timestamp')) {
-            $startTime = Carbon::createFromTimestamp($request->get('start_timestamp'));
+        if ($request->get('start_time')) {
+            $timeRange = null;
+            $startTime = Carbon::parse($request->get('start_time'));
         }
         $endTime = Carbon::now();
         if ($request->get('start_time')) {
             $endTime = Carbon::parse($request->get('end_time'));
-        }
-        if ($request->get('start_timestamp')) {
-            $endTime = Carbon::createFromTimestamp($request->get('end_timestamp'));
         }
         $logQuery = MonitoringLog::query();
         $logQuery->where('customer_site_id', $customerSite->id);

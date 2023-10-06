@@ -15,7 +15,7 @@
                         {{ link_to_route(
                             'customer_sites.show',
                             __('app.show'),
-                            [$customerSite, 'time_range' => '6h', 'start_timestamp' => Carbon::now()->subHours(6)->timestamp, 'end_timestamp' => Carbon::now()->timestamp],
+                            [$customerSite, 'time_range' => '6h'],
                             ['id' => 'show-customer_site-' . $customerSite->id, 'class' => 'float-end']
                         ) }}
                     @endcan
