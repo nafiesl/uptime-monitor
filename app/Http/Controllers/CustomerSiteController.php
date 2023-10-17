@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
-use App\Models\MonitoringLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerSiteController extends Controller
 {
@@ -79,7 +79,7 @@ class CustomerSiteController extends Controller
         if ($request->get('start_time')) {
             $endTime = Carbon::parse($request->get('end_time'));
         }
-        $logQuery = MonitoringLog::query();
+        $logQuery = DB::table('monitoring_logs');
         $logQuery->where('customer_site_id', $customerSite->id);
         $logQuery->whereBetween('created_at', [$startTime, $endTime]);
         $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
