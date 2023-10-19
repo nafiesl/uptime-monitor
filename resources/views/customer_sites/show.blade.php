@@ -120,6 +120,8 @@
             title: {
                 text: 'Miliseconds',
             },
+            max: 12000,
+            min: 0,
         },
         stroke: {
           width: [2]
