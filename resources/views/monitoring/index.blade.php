@@ -71,6 +71,17 @@
                             background: 'orange'
                         }
                     }
+                }, {
+                    y: 10000,
+                    borderColor: 'red',
+                    label: {
+                        show: true,
+                        text: 'Down',
+                        style: {
+                            color: "#fff",
+                            background: 'red'
+                        }
+                    }
                 }]
             },
             dataLabels: {
