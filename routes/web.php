@@ -20,7 +20,6 @@ Auth::routes(['register' => false, 'reset' => false]);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [MonitoringController::class, 'index'])->name('home');
-    Route::get('/test', [MonitoringController::class, 'test'])->name('test');
 
     Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
 
