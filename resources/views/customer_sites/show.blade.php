@@ -127,7 +127,7 @@
             },
         },
         yaxis: {
-            tickAmount: 10,
+            tickAmount: 12,
             title: {
                 text: 'Miliseconds',
             },
