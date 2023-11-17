@@ -65,7 +65,7 @@
                     borderColor: 'orange',
                     label: {
                         show: true,
-                        text: 'Trashold',
+                        text: 'Threshold',
                         style: {
                             color: "#fff",
                             background: 'orange'
