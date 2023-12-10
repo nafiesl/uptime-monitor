@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
@@ -36,6 +37,8 @@ class MonitorURLs extends Command
                 'response_time' => $responseTime,
                 'status_code' => $statusCode,
             ]);
+            $customerSite->last_check_at = Carbon::now();
+            $customerSite->save();
         }
 
         $this->info('URLs monitored successfully.');

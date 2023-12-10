@@ -15,6 +15,12 @@ class CustomerSite extends Model
         'warning_threshold', 'down_threshold', 'notify_user', 'last_check_at',
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+        'notify_user' => 'boolean',
+        'last_check_at' => 'datetime',
+    ];
+
     public function latestLogs()
     {
         return $this->hasMany(MonitoringLog::class)->latest();
