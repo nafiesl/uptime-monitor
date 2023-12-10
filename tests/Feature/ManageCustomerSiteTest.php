@@ -24,7 +24,7 @@ class ManageCustomerSiteTest extends TestCase
     {
         return array_merge([
             'name' => 'CustomerSite 1 name',
-            'url' => 'CustomerSite 1 url',
+            'url' => 'https://example.net',
         ], $overrides);
     }
 
@@ -92,7 +92,12 @@ class ManageCustomerSiteTest extends TestCase
     {
         return array_merge([
             'name' => 'CustomerSite 1 name',
-            'url' => 'CustomerSite 1 url',
+            'url' => 'https://example.net',
+            'check_periode' => 1,
+            'priority_code' => 'normal',
+            'warning_threshold' => 5000,
+            'down_threshold' => 10000,
+            'notify_user' => 0,
         ], $overrides);
     }
 

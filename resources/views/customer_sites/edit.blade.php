@@ -38,10 +38,33 @@
             <div class="card-body">
                 {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name')]) !!}
                 {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
-                {!! FormField::radios('is_active', [
-                    0 => __('app.inactive'),
-                    1 => __('app.active')
-                ], ['label' => __('app.status')]) !!}
+                <div class="row">
+                    <div class="col-4">
+                        {!! FormField::text('check_periode', [
+                            'label' => __('customer_site.check_periode'),
+                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')]
+                        ]) !!}
+                    </div>
+                    <div class="col-8">{!! FormField::radios('priority_code', ['high' => 'High', 'normal' => 'Normal', 'low' => 'Low'], ['label' => __('customer_site.priority_code')]) !!}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">{!! FormField::text('warning_threshold', ['label' => __('customer_site.warning_threshold'), 'addon' => ['after' => __('time.miliseconds')]]) !!}</div>
+                    <div class="col-6">{!! FormField::text('down_threshold', ['label' => __('customer_site.down_threshold'), 'addon' => ['after' => __('time.miliseconds')]]) !!}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {!! FormField::radios('notify_user', [
+                            1 => __('app.active'),
+                            0 => __('app.inactive'),
+                        ], ['label' => __('customer_site.notify_user')]) !!}
+                    </div>
+                    <div class="col-6">
+                        {!! FormField::radios('is_active', [
+                            1 => __('app.active'),
+                            0 => __('app.inactive'),
+                        ], ['label' => __('app.status')]) !!}
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 {{ Form::submit(__('customer_site.update'), ['class' => 'btn btn-success']) }}

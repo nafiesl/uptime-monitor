@@ -16,6 +16,12 @@ class CustomerSiteFactory extends Factory
             'owner_id' => function () {
                 return User::factory()->create()->id;
             },
+            'check_periode' => 1,
+            'priority_code' => 'normal',
+            'warning_threshold' => 5000,
+            'down_threshold' => 10000,
+            'notify_user' => 1,
+            'last_check_at' => null,
         ];
     }
 }

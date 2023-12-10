@@ -108,6 +108,11 @@ class CustomerSiteController extends Controller
             'name' => 'required|max:60',
             'url' => 'required|max:255',
             'is_active' => 'required|in:0,1',
+            'check_periode' => 'required|numeric',
+            'priority_code' => 'required|in:high,normal,low',
+            'warning_threshold' => 'required|numeric',
+            'down_threshold' => 'required|numeric',
+            'notify_user' => 'required|in:0,1',
         ]);
         $customerSite->update($customerSiteData);
 

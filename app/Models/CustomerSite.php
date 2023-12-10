@@ -10,7 +10,10 @@ class CustomerSite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'url', 'is_active', 'owner_id'];
+    protected $fillable = [
+        'name', 'url', 'is_active', 'owner_id', 'check_periode', 'priority_code',
+        'warning_threshold', 'down_threshold', 'notify_user', 'last_check_at',
+    ];
 
     public function latestLogs()
     {
