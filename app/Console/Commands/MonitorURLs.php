@@ -20,6 +20,10 @@ class MonitorURLs extends Command
         $customerSites = CustomerSite::where('is_active', 1)->get(); // Add your desired URLs here
 
         foreach ($customerSites as $customerSite) {
+            if (!$customerSite->needToCheck()) {
+                continue;
+            }
+
             $start = microtime(true);
             try {
                 $response = Http::timeout(10)->get($customerSite->url);
