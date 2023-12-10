@@ -8,11 +8,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class NotifyInweeksTeam extends Command
+class NotifyUser extends Command
 {
-    protected $signature = 'inweeks:notify';
+    protected $signature = 'notify-user';
 
-    protected $description = 'Notify in weeks team for website down';
+    protected $description = 'Notify user for website down';
 
     public function handle(): void
     {
@@ -30,14 +30,14 @@ class NotifyInweeksTeam extends Command
                 ->get(['response_time', 'created_at']);
             $responseTimeAverage = $responseTimes->avg('response_time');
             if ($responseTimes->avg('response_time') >= 9000) {
-                $this->notifyInweeksTeam($customerSite, $responseTimes);
+                $this->notifyUser($customerSite, $responseTimes);
             }
         }
 
         $this->info('Done!');
     }
 
-    private function notifyInweeksTeam(CustomerSite $customerSite, Collection $responseTimes): void
+    private function notifyUser(CustomerSite $customerSite, Collection $responseTimes): void
     {
         $endpoint = 'https://api.telegram.org/bot'.config('services.telegram_notifier.token').'/sendMessage';
         $text = "";
