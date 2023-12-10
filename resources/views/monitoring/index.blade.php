@@ -19,7 +19,7 @@
                                     ->latest('id')
                                     ->take(15)
                                     ->get(['response_time', 'created_at'])
-                                    ->sort();
+                                    ->sortKeysDesc();
                             @endphp
                             @foreach ($monitoringLogs as $monitoringLog)
                                 @php
