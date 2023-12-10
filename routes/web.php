@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\MonitoringController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/timeline', [MonitoringController::class, 'timeline'])->name('timeline');
 
     Route::resource('customer_sites', App\Http\Controllers\CustomerSiteController::class);
+
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });

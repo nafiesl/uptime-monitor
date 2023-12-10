@@ -10,7 +10,7 @@ class CustomerSite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'url', 'is_active'];
+    protected $fillable = ['name', 'url', 'is_active', 'owner_id'];
 
     public function latestLogs()
     {
@@ -20,5 +20,10 @@ class CustomerSite extends Model
     public function monitoringLogs()
     {
         return $this->hasMany(MonitoringLog::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id')->withDefault(['name' => 'n/a']);
     }
 }

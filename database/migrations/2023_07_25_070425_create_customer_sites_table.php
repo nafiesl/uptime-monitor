@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('url');
             $table->unsignedTinyInteger('is_active')->default(1);
+            $table->foreignId('owner_id')->constrained('users');
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ class CustomerSiteController extends Controller
         $customerSiteQuery = CustomerSite::query();
         $customerSiteQuery->where('name', 'like', '%'.$request->get('q').'%');
         $customerSiteQuery->orderBy('name');
+        $customerSiteQuery->where('owner_id', auth()->id());
         $customerSites = $customerSiteQuery->paginate(25);
 
         return view('customer_sites.index', compact('customerSites'));
@@ -34,7 +35,7 @@ class CustomerSiteController extends Controller
             'name' => 'required|max:60',
             'url' => 'required|max:255',
         ]);
-        $newCustomerSite['creator_id'] = auth()->id();
+        $newCustomerSite['owner_id'] = auth()->id();
 
         $customerSite = CustomerSite::create($newCustomerSite);
 

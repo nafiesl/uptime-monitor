@@ -13,9 +13,9 @@ class ManageCustomerSiteTest extends TestCase
     /** @test */
     public function user_can_see_customer_site_list_in_customer_site_index_page()
     {
-        $customerSite = CustomerSite::factory()->create();
+        $owner = $this->loginAsUser();
+        $customerSite = CustomerSite::factory()->create(['owner_id' => $owner->id]);
 
-        $this->loginAsUser();
         $this->visitRoute('customer_sites.index');
         $this->see($customerSite->name);
     }
@@ -99,8 +99,8 @@ class ManageCustomerSiteTest extends TestCase
     /** @test */
     public function user_can_edit_a_customer_site()
     {
-        $this->loginAsUser();
-        $customerSite = CustomerSite::factory()->create(['name' => 'Testing 123']);
+        $owner = $this->loginAsUser();
+        $customerSite = CustomerSite::factory()->create(['name' => 'Testing 123', 'owner_id' => $owner->id]);
 
         $this->visitRoute('customer_sites.show', $customerSite);
         $this->click('edit-customer_site-'.$customerSite->id);
@@ -169,8 +169,8 @@ class ManageCustomerSiteTest extends TestCase
     /** @test */
     public function user_can_delete_a_customer_site()
     {
-        $this->loginAsUser();
-        $customerSite = CustomerSite::factory()->create();
+        $owner = $this->loginAsUser();
+        $customerSite = CustomerSite::factory()->create(['owner_id' => $owner->id]);
         CustomerSite::factory()->create();
 
         $this->visitRoute('customer_sites.edit', $customerSite);

@@ -7,6 +7,7 @@ use App\Models\MonitoringLog;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class NotifyUser extends Command
 {
@@ -16,7 +17,7 @@ class NotifyUser extends Command
 
     public function handle(): void
     {
-        if (empty(config('services.telegram_notifier.token')) || empty(config('services.telegram_notifier.chat_id'))) {
+        if (empty(config('services.telegram_notifier.token'))) {
             return;
         }
 
@@ -39,6 +40,17 @@ class NotifyUser extends Command
 
     private function notifyUser(CustomerSite $customerSite, Collection $responseTimes): void
     {
+        if (is_null($customerSite->owner)) {
+            Log::channel('daily')->info('Missing customer site owner', $customerSite->toArray());
+            return;
+        }
+
+        $telegramChatId = $customerSite->owner->telegram_chat_id;
+        if (is_null($telegramChatId)) {
+            Log::channel('daily')->info('Missing telegram_chat_id form owner', $customerSite->toArray());
+            return;
+        }
+
         $endpoint = 'https://api.telegram.org/bot'.config('services.telegram_notifier.token').'/sendMessage';
         $text = "";
         $text .= "Uptime: Website Down";
@@ -52,7 +64,7 @@ class NotifyUser extends Command
         $text .= "\nCek di sini:";
         $text .= "\n".route('customer_sites.show', [$customerSite->id, 'time_range' => '6h']);
         Http::post($endpoint, [
-            'chat_id' => config('services.telegram_notifier.chat_id'),
+            'chat_id' => $telegramChatId,
             'text' => $text,
         ]);
     }
