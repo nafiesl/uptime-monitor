@@ -39,17 +39,38 @@
                 {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name')]) !!}
                 {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-md-5">
                         {!! FormField::text('check_periode', [
                             'label' => __('customer_site.check_periode'),
-                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')]
+                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')],
+                            'type' => 'number',
+                            'min' => 1,
+                            'max' => 60,
                         ]) !!}
                     </div>
-                    <div class="col-8">{!! FormField::radios('priority_code', ['high' => 'High', 'normal' => 'Normal', 'low' => 'Low'], ['label' => __('customer_site.priority_code')]) !!}</div>
+                    <div class="col-md-7">{!! FormField::radios('priority_code', ['high' => 'High', 'normal' => 'Normal', 'low' => 'Low'], ['label' => __('customer_site.priority_code')]) !!}</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">{!! FormField::text('warning_threshold', ['label' => __('customer_site.warning_threshold'), 'addon' => ['after' => __('time.miliseconds')]]) !!}</div>
-                    <div class="col-6">{!! FormField::text('down_threshold', ['label' => __('customer_site.down_threshold'), 'addon' => ['after' => __('time.miliseconds')]]) !!}</div>
+                    <div class="col-6">
+                        {!! FormField::text('warning_threshold', [
+                            'label' => __('customer_site.warning_threshold'),
+                            'addon' => ['after' => __('time.miliseconds')],
+                            'type' => 'number',
+                            'min' => 1000,
+                            'max' => 30000,
+                            'step' => 1000,
+                        ]) !!}
+                    </div>
+                    <div class="col-6">
+                        {!! FormField::text('down_threshold', [
+                            'label' => __('customer_site.down_threshold'),
+                            'addon' => ['after' => __('time.miliseconds')],
+                            'type' => 'number',
+                            'min' => 2000,
+                            'max' => 60000,
+                            'step' => 1000,
+                        ]) !!}
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-6">
