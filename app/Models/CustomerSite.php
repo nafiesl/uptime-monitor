@@ -35,4 +35,21 @@ class CustomerSite extends Model
     {
         return $this->belongsTo(User::class, 'owner_id')->withDefault(['name' => 'n/a']);
     }
+
+    public function needToCheck(): bool
+    {
+        if (!$this->is_active) {
+            return false;
+        }
+
+        if (!$this->last_check_at) {
+            return true;
+        }
+
+        if ($this->last_check_at->diffInMinutes() < ($this->check_periode - 1)) {
+            return false;
+        }
+
+        return true;
+    }
 }
