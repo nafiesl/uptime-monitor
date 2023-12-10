@@ -29,32 +29,33 @@
 </div>
 <br>
 <div class="card">
-    <div class="card-body">
+    <div class="card-body pb-0">
         <div class="btn-group mb-3" role="group">
-            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'time_range' => '1h'], ['class' => 'btn btn-outline-primary'.($timeRange == '1h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'time_range' => '6h'], ['class' => 'btn btn-outline-primary'.($timeRange == '6h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'time_range' => '24h'], ['class' => 'btn btn-outline-primary'.($timeRange == '24h' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'time_range' => '7d'], ['class' => 'btn btn-outline-primary'.($timeRange == '7d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'time_range' => '14d'], ['class' => 'btn btn-outline-primary'.($timeRange == '14d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'time_range' => '30d'], ['class' => 'btn btn-outline-primary'.($timeRange == '30d' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'time_range' => '3Mo'], ['class' => 'btn btn-outline-primary'.($timeRange == '3Mo' ? ' active' : '')]) }}
-            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'time_range' => '6Mo'], ['class' => 'btn btn-outline-primary'.($timeRange == '6Mo' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '1h', [$customerSite, 'time_range' => '1h'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '1h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '6h', [$customerSite, 'time_range' => '6h'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '6h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '24h', [$customerSite, 'time_range' => '24h'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '24h' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '7d', [$customerSite, 'time_range' => '7d'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '7d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '14d', [$customerSite, 'time_range' => '14d'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '14d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '30d', [$customerSite, 'time_range' => '30d'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '30d' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '3Mo', [$customerSite, 'time_range' => '3Mo'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '3Mo' ? ' active' : '')]) }}
+            {{ link_to_route('customer_sites.show', '6Mo', [$customerSite, 'time_range' => '6Mo'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '6Mo' ? ' active' : '')]) }}
         </div>
         <div class="float-end">
             {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}
-            <div class="col-12">
+            <div class="col">
                 {{ Form::text('start_time', $startTime->format('Y-m-d H:i'), ['class' => 'date_time_select form-control', 'style' => 'width:150px']) }}
             </div>
-            <div class="col-12">
+            <div class="col">
                 {{ Form::text('end_time', $endTime->format('Y-m-d H:i'), ['class' => 'date_time_select form-control', 'style' => 'width:150px']) }}
             </div>
-            <div class="col-12">
+            <div class="col">
                 {{ Form::submit('View Report', ['class' => 'btn btn-info mr-1']) }}
                 {{ link_to_route('customer_sites.show', __('app.reset'), $customerSite, ['class' => 'btn btn-secondary']) }}
             </div>
             {{ Form::close() }}
         </div>
-
+    </div>
+    <div class="card-body pt-0">
         <div id="chart_timeline_{{ $customerSite->id }}"></div>
     </div>
 </div>
