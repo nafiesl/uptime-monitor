@@ -1,4 +1,4 @@
-<div wire:poll.{{ $customerSite->check_periode * 60 }}s>
+<div {{ $uptimePollState }}>
     @php
         $monitoringLogs = $customerSite->monitoringLogs()
             ->latest('id')
