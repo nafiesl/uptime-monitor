@@ -56,4 +56,20 @@ class CustomerSiteTest extends TestCase
 
         Carbon::setTestNow();
     }
+
+    /** @test */
+    public function customer_site_model_has_max_y_axis_attribute()
+    {
+        $customerSite = CustomerSite::factory()->make(['down_threshold' => 10000]);
+
+        $this->assertEquals(12000, $customerSite->y_axis_max);
+    }
+
+    /** @test */
+    public function customer_site_model_has_y_axis_tick_amount_attribute()
+    {
+        $customerSite = CustomerSite::factory()->make(['down_threshold' => 10000]);
+
+        $this->assertEquals(12, $customerSite->y_axis_tick_amount);
+    }
 }

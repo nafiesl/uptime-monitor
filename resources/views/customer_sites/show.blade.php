@@ -96,7 +96,7 @@
         },
         annotations: {
             yaxis: [{
-                y: 5000,
+                y: {{ $customerSite->warning_threshold }},
                 borderColor: 'orange',
                 label: {
                     show: true,
@@ -107,7 +107,7 @@
                     }
                 }
             }, {
-                y: 10000,
+                y: {{ $customerSite->down_threshold }},
                 borderColor: 'red',
                 label: {
                     show: true,
@@ -134,11 +134,11 @@
             },
         },
         yaxis: {
-            tickAmount: 12,
+            tickAmount: {{ $customerSite->y_axis_tick_amount }},
             title: {
                 text: 'Miliseconds',
             },
-            max: 12000,
+            max: {{ $customerSite->y_axis_max }},
             min: 0,
         },
         stroke: {

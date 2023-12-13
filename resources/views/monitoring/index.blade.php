@@ -3,6 +3,18 @@
 @section('content')
 
 <div class="page-header mt-0 mb-4">
+    <div class="float-end">
+        @php
+            $uptimePoll = request('uptime_poll', 0);
+        @endphp
+        <a href="{{ route('home', ['uptime_poll' => $uptimePoll ? 0 : 1]) }}" class="text-decoration-none fs-3 text-dark">
+            @if ($uptimePoll)
+                Stop &#9208;&#65039;
+            @else
+                Start &#9654;&#65039;
+            @endif
+        </a>
+    </div>
     <h1 class="page-title">Dashboard</h1>
 </div>
 
@@ -14,25 +26,10 @@
                     <div class="row justify-content-around">
                         <div class="col">{{ $customerSite->name }}</div>
                         <div class="col text-end">
-                            @php
-                                $monitoringLogs = $customerSite->monitoringLogs()
-                                    ->latest('id')
-                                    ->take(15)
-                                    ->get(['response_time', 'created_at'])
-                                    ->sortKeysDesc();
-                            @endphp
-                            @foreach ($monitoringLogs as $monitoringLog)
-                                @php
-                                    $bgColor = 'success';
-                                    if ($monitoringLog->response_time > 5000) {
-                                        $bgColor = 'warning';
-                                    }
-                                    if ($monitoringLog->response_time > 10000) {
-                                        $bgColor = 'danger';
-                                    }
-                                @endphp
-                                <span class="badge bg-{{ $bgColor }} log_indicator" title="{{ $monitoringLog->created_at }} ({{ number_format($monitoringLog->response_time) }} ms)">&nbsp;</span>
-                            @endforeach
+                            @livewire('uptime-badge', [
+                                'customerSite' => $customerSite,
+                                'uptimePoll' => request('uptime_poll', 0)
+                            ])
                         </div>
                     </div>
                 </div>

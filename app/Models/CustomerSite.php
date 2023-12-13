@@ -52,4 +52,14 @@ class CustomerSite extends Model
 
         return true;
     }
+
+    public function getYAxisMaxAttribute()
+    {
+        return $this->down_threshold + 2000;
+    }
+
+    public function getYAxisTickAmountAttribute()
+    {
+        return $this->y_axis_max / 1000;
+    }
 }
