@@ -35,7 +35,7 @@ class UptimeBadge extends Component
             ->get(['response_time', 'created_at'])
             ->sortKeysDesc()
             ->map(function ($monitoringLog) use ($customerSite) {
-                $monitoringLog->uptime_badge_bg_color = $this->getUptimeBadgeBgColor($monitoringLog);
+                $monitoringLog->uptime_badge_bg_color = $this->getUptimeBadgeBgColor($customerSite, $monitoringLog);
                 $monitoringLog->uptime_badge_title = $this->getUptimeBadgeTitle($monitoringLog);
 
                 return $monitoringLog;
@@ -43,12 +43,12 @@ class UptimeBadge extends Component
         return $monitoringLogs;
     }
 
-    private function getUptimeBadgeBgColor(MonitoringLog $monitoringLog): string
+    private function getUptimeBadgeBgColor(CustomerSite $customerSite, MonitoringLog $monitoringLog): string
     {
-        if ($monitoringLog->response_time > 10000) {
+        if ($monitoringLog->response_time > $customerSite->down_threshold) {
             return 'danger';
         }
-        if ($monitoringLog->response_time > 5000) {
+        if ($monitoringLog->response_time > $customerSite->warning_threshold) {
             return 'warning';
         }
 
