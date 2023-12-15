@@ -18,10 +18,10 @@
             <div class="card-header">
                 {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}
                 <div class="col-12">
-                    {!! FormField::text('q', ['label' => false, 'placeholder' => __('customer_site.search'), 'class' => 'mx-sm-2']) !!}
+                    {!! Form::text('q', request('q'), ['label' => false, 'placeholder' => __('customer_site.search')]) !!}
                 </div>
                 <div class="col-12">
-                    {{ Form::submit(__('customer_site.search'), ['class' => 'btn btn-secondary']) }}
+                    {{ Form::submit(__('customer_site.search'), ['class' => 'btn-secondary']) }}
                     {{ link_to_route('customer_sites.index', __('app.reset'), [], ['class' => 'btn btn-link']) }}
                 </div>
                 {{ Form::close() }}

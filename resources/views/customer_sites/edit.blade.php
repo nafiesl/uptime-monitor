@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                {{ Form::submit(__('customer_site.update'), ['class' => 'btn btn-success']) }}
+                {{ Form::submit(__('customer_site.update'), ['class' => 'btn btn-warning']) }}
                 {{ link_to_route('customer_sites.show', __('app.cancel'), [$customerSite], ['class' => 'btn btn-link']) }}
                 @can('delete', $customerSite)
                     {{ link_to_route('customer_sites.edit', __('app.delete'), [$customerSite, 'action' => 'delete'], ['class' => 'btn btn-danger float-right', 'id' => 'del-customer_site-'.$customerSite->id]) }}
