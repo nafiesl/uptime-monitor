@@ -97,7 +97,7 @@ class ManageCustomerSiteTest extends TestCase
             'priority_code' => 'normal',
             'warning_threshold' => 5000,
             'down_threshold' => 10000,
-            'notify_user' => 0,
+            'notify_user_interval' => 0,
         ], $overrides);
     }
 

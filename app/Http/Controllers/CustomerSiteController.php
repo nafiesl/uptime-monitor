@@ -112,7 +112,7 @@ class CustomerSiteController extends Controller
             'priority_code' => 'required|in:high,normal,low',
             'warning_threshold' => ['required', 'numeric', 'min:1000', 'max:30000'],
             'down_threshold' => ['required', 'numeric', 'min:2000', 'max:60000'],
-            'notify_user' => 'required|in:0,1',
+            'notify_user_interval' => ['required', 'numeric', 'min:0', 'max:60'],
         ]);
         $customerSite->update($customerSiteData);
 

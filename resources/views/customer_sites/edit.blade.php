@@ -74,10 +74,14 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        {!! FormField::radios('notify_user', [
-                            1 => __('app.active'),
-                            0 => __('app.inactive'),
-                        ], ['label' => __('customer_site.notify_user')]) !!}
+                        {!! FormField::text('notify_user_interval', [
+                            'label' => __('customer_site.notify_user_interval'),
+                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')],
+                            'type' => 'number',
+                            'min' => 0,
+                            'max' => 60,
+                            'info' => ['text' => __('customer_site.notify_user_interval_form_info'), 'class' => 'primary'],
+                        ]) !!}
                     </div>
                     <div class="col-6">
                         {!! FormField::radios('is_active', [

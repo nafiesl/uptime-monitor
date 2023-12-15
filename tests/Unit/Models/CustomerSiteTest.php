@@ -58,6 +58,42 @@ class CustomerSiteTest extends TestCase
     }
 
     /** @test */
+    public function customer_site_model_has_can_notify_user_method()
+    {
+        $customerSite = CustomerSite::factory()->make([
+            'is_active' => 0,
+            'last_notify_user_at' => null,
+        ]);
+        $this->assertFalse($customerSite->canNotifyUser());
+
+        $customerSite->is_active = 1;
+        $customerSite->last_notify_user_at = null;
+        $this->assertTrue($customerSite->canNotifyUser());
+
+        $customerSite->notify_user_interval = 2;
+        $customerSite->last_notify_user_at = '2023-12-11 00:01:16';
+        Carbon::setTestNow('2023-12-11 00:02:17');
+        $this->assertTrue($customerSite->canNotifyUser());
+
+        $customerSite->notify_user_interval = 5;
+        $customerSite->last_notify_user_at = '2023-12-11 00:00:00';
+        Carbon::setTestNow('2023-12-11 00:03:00');
+        $this->assertFalse($customerSite->canNotifyUser());
+
+        $customerSite->notify_user_interval = 5;
+        $customerSite->last_notify_user_at = '2023-12-11 00:00:00';
+        Carbon::setTestNow('2023-12-11 00:05:00');
+        $this->assertTrue($customerSite->canNotifyUser());
+
+        $customerSite->notify_user_interval = 5;
+        $customerSite->last_notify_user_at = '2023-12-11 00:00:00';
+        Carbon::setTestNow('2023-12-11 00:04:00');
+        $this->assertTrue($customerSite->canNotifyUser());
+
+        Carbon::setTestNow();
+    }
+
+    /** @test */
     public function customer_site_model_has_max_y_axis_attribute()
     {
         $customerSite = CustomerSite::factory()->make(['down_threshold' => 10000]);

@@ -34,6 +34,8 @@ return [
     'priority_code' => 'Priority',
     'warning_threshold' => 'Warning Threshold',
     'down_threshold' => 'Down Threshold',
-    'notify_user' => 'Notify User?',
+    'notify_user_interval' => 'Notify User Interval',
+    'notify_user_interval_form_info' => 'Fill to 0 to never notify user.',
     'last_check_at' => 'Last check at',
+    'last_notify_user_at' => 'Last notify user at',
 ];

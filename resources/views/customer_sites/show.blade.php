@@ -17,8 +17,9 @@
                         <tr><td>{{ __('customer_site.priority_code') }}</td><td>{{ $customerSite->priority_code }}</td></tr>
                         <tr><td>{{ __('customer_site.warning_threshold') }}</td><td>{{ $customerSite->warning_threshold }} {{ __('time.miliseconds') }}</td></tr>
                         <tr><td>{{ __('customer_site.down_threshold') }}</td><td>{{ $customerSite->down_threshold }} {{ __('time.miliseconds') }}</td></tr>
-                        <tr><td>{{ __('customer_site.notify_user') }}</td><td>{{ $customerSite->notify_user }}</td></tr>
+                        <tr><td>{{ __('customer_site.notify_user_interval') }}</td><td>{{ __('time.every') }} {{ $customerSite->notify_user_interval }} {{ __('time.minutes') }}</td></tr>
                         <tr><td>{{ __('customer_site.last_check_at') }}</td><td>{{ optional($customerSite->last_check_at)->diffForHumans() }}</td></tr>
+                        <tr><td>{{ __('customer_site.last_notify_user_at') }}</td><td>{{ optional($customerSite->last_notify_user_at)->diffForHumans() }}</td></tr>
                         <tr><td>{{ __('app.created_at') }}</td><td>{{ $customerSite->created_at }}</td></tr>
                         <tr><td>{{ __('app.updated_at') }}</td><td>{{ $customerSite->updated_at }}</td></tr>
                     </tbody>

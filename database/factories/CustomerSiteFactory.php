@@ -20,8 +20,9 @@ class CustomerSiteFactory extends Factory
             'priority_code' => 'normal',
             'warning_threshold' => 5000,
             'down_threshold' => 10000,
-            'notify_user' => 1,
+            'notify_user_interval' => 5,
             'last_check_at' => null,
+            'last_notify_user_at' => null,
         ];
     }
 }

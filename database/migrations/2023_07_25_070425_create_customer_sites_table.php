@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('priority_code', 10)->default('normal');
             $table->unsignedInteger('warning_threshold')->default(5000);
             $table->unsignedInteger('down_threshold')->default(10000);
-            $table->boolean('notify_user')->default(true);
+            $table->unsignedTinyInteger('notify_user_interval')->default(5);
             $table->timestamp('last_check_at')->nullable();
+            $table->timestamp('last_notify_user_at')->nullable();
             $table->timestamps();
         });
     }

@@ -12,13 +12,14 @@ class CustomerSite extends Model
 
     protected $fillable = [
         'name', 'url', 'is_active', 'owner_id', 'check_interval', 'priority_code',
-        'warning_threshold', 'down_threshold', 'notify_user', 'last_check_at',
+        'warning_threshold', 'down_threshold', 'notify_user_interval', 'last_check_at',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
         'notify_user' => 'boolean',
         'last_check_at' => 'datetime',
+        'last_notify_user_at' => 'datetime',
     ];
 
     public function latestLogs()
@@ -47,6 +48,23 @@ class CustomerSite extends Model
         }
 
         if ($this->last_check_at->diffInMinutes() < ($this->check_interval - 1)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function canNotifyUser(): bool
+    {
+        if (!$this->is_active) {
+            return false;
+        }
+
+        if (!$this->last_notify_user_at) {
+            return true;
+        }
+
+        if ($this->last_notify_user_at->diffInMinutes() < ($this->notify_user_interval - 1)) {
             return false;
         }
 
