@@ -108,7 +108,7 @@ class CustomerSiteController extends Controller
             'name' => 'required|max:60',
             'url' => 'required|max:255',
             'is_active' => 'required|in:0,1',
-            'check_periode' => ['required', 'numeric', 'min:1', 'max:60'],
+            'check_interval' => ['required', 'numeric', 'min:1', 'max:60'],
             'priority_code' => 'required|in:high,normal,low',
             'warning_threshold' => ['required', 'numeric', 'min:1000', 'max:30000'],
             'down_threshold' => ['required', 'numeric', 'min:2000', 'max:60000'],

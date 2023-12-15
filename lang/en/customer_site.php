@@ -30,7 +30,7 @@ return [
     // Attributes
     'name' => 'Site Name',
     'url' => 'Site URL',
-    'check_periode' => 'Check Periode',
+    'check_interval' => 'Check Interval',
     'priority_code' => 'Priority',
     'warning_threshold' => 'Warning Threshold',
     'down_threshold' => 'Down Threshold',

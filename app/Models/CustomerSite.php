@@ -11,7 +11,7 @@ class CustomerSite extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'url', 'is_active', 'owner_id', 'check_periode', 'priority_code',
+        'name', 'url', 'is_active', 'owner_id', 'check_interval', 'priority_code',
         'warning_threshold', 'down_threshold', 'notify_user', 'last_check_at',
     ];
 
@@ -46,7 +46,7 @@ class CustomerSite extends Model
             return true;
         }
 
-        if ($this->last_check_at->diffInMinutes() < ($this->check_periode - 1)) {
+        if ($this->last_check_at->diffInMinutes() < ($this->check_interval - 1)) {
             return false;
         }
 

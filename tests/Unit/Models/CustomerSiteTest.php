@@ -34,22 +34,22 @@ class CustomerSiteTest extends TestCase
         $customerSite->last_check_at = null;
         $this->assertTrue($customerSite->needToCheck());
 
-        $customerSite->check_periode = 2;
+        $customerSite->check_interval = 2;
         $customerSite->last_check_at = '2023-12-11 00:01:16';
         Carbon::setTestNow('2023-12-11 00:02:17');
         $this->assertTrue($customerSite->needToCheck());
 
-        $customerSite->check_periode = 5;
+        $customerSite->check_interval = 5;
         $customerSite->last_check_at = '2023-12-11 00:00:00';
         Carbon::setTestNow('2023-12-11 00:03:00');
         $this->assertFalse($customerSite->needToCheck());
 
-        $customerSite->check_periode = 5;
+        $customerSite->check_interval = 5;
         $customerSite->last_check_at = '2023-12-11 00:00:00';
         Carbon::setTestNow('2023-12-11 00:05:00');
         $this->assertTrue($customerSite->needToCheck());
 
-        $customerSite->check_periode = 5;
+        $customerSite->check_interval = 5;
         $customerSite->last_check_at = '2023-12-11 00:00:00';
         Carbon::setTestNow('2023-12-11 00:04:00');
         $this->assertTrue($customerSite->needToCheck());

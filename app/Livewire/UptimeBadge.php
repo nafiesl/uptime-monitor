@@ -17,7 +17,7 @@ class UptimeBadge extends Component
     {
         $customerSite = $this->customerSite;
         if ($this->uptimePoll == 1) {
-            $checkPeriodeInSeconds = $customerSite->check_periode * 60;
+            $checkPeriodeInSeconds = $customerSite->check_interval * 60;
             $this->uptimePollState = 'wire:poll.'.($checkPeriodeInSeconds).'s';
         }
     }

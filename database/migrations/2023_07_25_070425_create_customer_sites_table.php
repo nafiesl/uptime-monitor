@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('url');
             $table->unsignedTinyInteger('is_active')->default(1);
             $table->foreignId('owner_id')->constrained('users');
-            $table->unsignedTinyInteger('check_periode')->default(1);
+            $table->unsignedTinyInteger('check_interval')->default(1);
             $table->string('priority_code', 10)->default('normal');
             $table->unsignedInteger('warning_threshold')->default(5000);
             $table->unsignedInteger('down_threshold')->default(10000);

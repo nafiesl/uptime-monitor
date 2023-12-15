@@ -40,8 +40,8 @@
                 {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
                 <div class="row">
                     <div class="col-md-5">
-                        {!! FormField::text('check_periode', [
-                            'label' => __('customer_site.check_periode'),
+                        {!! FormField::text('check_interval', [
+                            'label' => __('customer_site.check_interval'),
                             'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')],
                             'type' => 'number',
                             'min' => 1,
