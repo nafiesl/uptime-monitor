@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59545165a50802bcf5d3d74dabc197fb",
+    "content-hash": "c62da63195e51cbe660c4e05fb8b4695",
     "packages": [
         {
             "name": "brick/math",
@@ -6244,16 +6244,16 @@
         },
         {
             "name": "luthfi/simple-crud-generator",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nafiesl/SimpleCrudGenerator.git",
-                "reference": "ff91c417e273edaeb14bf958fceca75bdf9d2b0a"
+                "reference": "9a33b8e42b2e237758bc03d5fdffdae118a5edac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nafiesl/SimpleCrudGenerator/zipball/ff91c417e273edaeb14bf958fceca75bdf9d2b0a",
-                "reference": "ff91c417e273edaeb14bf958fceca75bdf9d2b0a",
+                "url": "https://api.github.com/repos/nafiesl/SimpleCrudGenerator/zipball/9a33b8e42b2e237758bc03d5fdffdae118a5edac",
+                "reference": "9a33b8e42b2e237758bc03d5fdffdae118a5edac",
                 "shasum": ""
             },
             "require": {
@@ -6298,7 +6298,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nafiesl/SimpleCrudGenerator/issues",
-                "source": "https://github.com/nafiesl/SimpleCrudGenerator/tree/4.0.0"
+                "source": "https://github.com/nafiesl/SimpleCrudGenerator/tree/4.1.0"
             },
             "funding": [
                 {
@@ -6314,7 +6314,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-06-11T03:40:52+00:00"
+            "time": "2023-10-17T14:08:28+00:00"
         },
         {
             "name": "masterminds/html5",
