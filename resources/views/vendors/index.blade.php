@@ -6,7 +6,7 @@
 <div class="mb-3">
     <div class="float-end">
         @can('create', new App\Models\Vendor)
-            <a href="{{ route('vendors.create') }}" class="btn btn-success">{{ __('vendor.create') }}</a>
+            {{ link_to_route('vendors.create', __('vendor.create'), [], ['class' => 'btn btn-success']) }}
         @endcan
     </div>
     <h2 class="page-title">{{ __('vendor.list') }} <small>{{ __('app.total') }} : {{ $vendors->total() }} {{ __('vendor.vendor') }}</small></h2>
@@ -16,20 +16,15 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <form method="GET" action="" accept-charset="UTF-8">
-                    <div class="row g-2">
-                        <div class="col-auto">
-                            <label for="q" class="col-form-label">{{ __('vendor.search') }}</label>
-                        </div>
-                        <div class="col-auto">
-                            <input placeholder="{{ __('vendor.search_text') }}" name="q" type="text" id="q" class="form-control" value="{{ request('q') }}">
-                        </div>
-                        <div class="col-auto">
-                            <input type="submit" value="{{ __('vendor.search') }}" class="btn btn-secondary">
-                            <a href="{{ route('vendors.index') }}" class="btn btn-link">{{ __('app.reset') }}</a>
-                        </div>
-                    </div>
-                </form>
+                {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-3 align-items-center']) }}
+                <div class="col-12">
+                    {!! Form::text('q', request('q'), ['label' => false, 'placeholder' => __('vendor.search')]) !!}
+                </div>
+                <div class="col-12">
+                    {{ Form::submit(__('vendor.search'), ['class' => 'btn-secondary']) }}
+                    {{ link_to_route('vendors.index', __('app.reset'), [], ['class' => 'btn btn-link']) }}
+                </div>
+                {{ Form::close() }}
             </div>
             <table class="table table-sm table-responsive-sm table-hover">
                 <thead>
