@@ -30,3 +30,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+/*
+ * Vendors Routes
+ */
+Route::resource('vendors', App\Http\Controllers\VendorController::class);
