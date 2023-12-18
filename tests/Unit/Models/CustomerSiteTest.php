@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\CustomerSite;
 use App\Models\User;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -107,5 +108,15 @@ class CustomerSiteTest extends TestCase
         $customerSite = CustomerSite::factory()->make(['down_threshold' => 10000]);
 
         $this->assertEquals(12, $customerSite->y_axis_tick_amount);
+    }
+
+    /** @test */
+    public function customer_site_model_has_belongs_to_vendor_relation()
+    {
+        $vendor = Vendor::factory()->create();
+        $customerSite = CustomerSite::factory()->create(['vendor_id' => $vendor->id]);
+
+        $this->assertInstanceOf(Vendor::class, $customerSite->vendor);
+        $this->assertEquals($customerSite->vendor_id, $customerSite->vendor->id);
     }
 }

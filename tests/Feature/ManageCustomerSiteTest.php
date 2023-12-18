@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\CustomerSite;
+use App\Models\Vendor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,16 +33,21 @@ class ManageCustomerSiteTest extends TestCase
     public function user_can_create_a_customer_site()
     {
         $this->loginAsUser();
+        $vendor = Vendor::factory()->create();
         $this->visitRoute('customer_sites.index');
 
         $this->click(__('customer_site.create'));
         $this->seeRouteIs('customer_sites.create');
 
-        $this->submitForm(__('app.create'), $this->getCreateFields());
+        $this->submitForm(__('app.create'), $this->getCreateFields([
+            'vendor_id' => $vendor->id,
+        ]));
 
         $this->seeRouteIs('customer_sites.show', CustomerSite::first());
 
-        $this->seeInDatabase('customer_sites', $this->getCreateFields());
+        $this->seeInDatabase('customer_sites', $this->getCreateFields([
+            'vendor_id' => $vendor->id,
+        ]));
     }
 
     /** @test */
@@ -105,6 +111,7 @@ class ManageCustomerSiteTest extends TestCase
     public function user_can_edit_a_customer_site()
     {
         $owner = $this->loginAsUser();
+        $vendor = Vendor::factory()->create();
         $customerSite = CustomerSite::factory()->create(['name' => 'Testing 123', 'owner_id' => $owner->id]);
 
         $this->visitRoute('customer_sites.show', $customerSite);
@@ -113,6 +120,7 @@ class ManageCustomerSiteTest extends TestCase
 
         $this->submitForm(__('customer_site.update'), $this->getEditFields([
             'is_active' => 0,
+            'vendor_id' => $vendor->id,
         ]));
 
         $this->seeRouteIs('customer_sites.show', $customerSite);
@@ -120,6 +128,7 @@ class ManageCustomerSiteTest extends TestCase
         $this->seeInDatabase('customer_sites', $this->getEditFields([
             'id' => $customerSite->id,
             'is_active' => 0,
+            'vendor_id' => $vendor->id,
         ]));
     }
 
