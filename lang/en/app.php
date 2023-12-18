@@ -6,6 +6,7 @@ return [
     'total' => 'Total',
     'action' => 'Actions',
     'show_detail_title' => 'View :title :type detail',
+    'back_to_dashboard' => 'Back to Dashboard',
 
     // Actions
     'create' => 'Create',
