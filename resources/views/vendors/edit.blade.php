@@ -10,8 +10,8 @@
             <div class="card">
                 <div class="card-header">{{ __('vendor.delete') }}</div>
                 <div class="card-body">
-                    <label class="control-label text-primary">{{ __('vendor.title') }}</label>
-                    <p>{{ $vendor->title }}</p>
+                    <label class="control-label text-primary">{{ __('vendor.name') }}</label>
+                    <p>{{ $vendor->name }}</p>
                     <label class="control-label text-primary">{{ __('vendor.description') }}</label>
                     <p>{{ $vendor->description }}</p>
                     {!! $errors->first('vendor_id', '<span class="form-error small">:message</span>') !!}
@@ -34,7 +34,7 @@
             <div class="card-header">{{ __('vendor.edit') }}</div>
             {{ Form::model($vendor, ['route' => ['vendors.update', $vendor], 'method' => 'patch']) }}
             <div class="card-body">
-                {!! FormField::text('title', ['required' => true, 'label' => __('vendor.title')]) !!}
+                {!! FormField::text('name', ['required' => true, 'label' => __('vendor.name')]) !!}
                 {!! FormField::textarea('description', ['label' => __('vendor.description')]) !!}
             </div>
             <div class="card-footer">

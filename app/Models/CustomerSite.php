@@ -39,7 +39,7 @@ class CustomerSite extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(Vendor::class)->withDefault(['title' => 'n/a']);
+        return $this->belongsTo(Vendor::class)->withDefault(['name' => 'n/a']);
     }
 
     public function needToCheck(): bool

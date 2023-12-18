@@ -10,7 +10,7 @@
             <div class="card-body">
                 <table class="table table-sm">
                     <tbody>
-                        <tr><td>{{ __('vendor.title') }}</td><td>{{ $vendor->title }}</td></tr>
+                        <tr><td>{{ __('vendor.name') }}</td><td>{{ $vendor->name }}</td></tr>
                         <tr><td>{{ __('vendor.description') }}</td><td>{{ $vendor->description }}</td></tr>
                     </tbody>
                 </table>

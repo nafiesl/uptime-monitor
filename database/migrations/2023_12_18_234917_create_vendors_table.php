@@ -10,7 +10,7 @@ class CreateVendorsTable extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title', 60);
+            $table->string('name', 60);
             $table->string('description')->nullable();
             $table->foreignId('creator_id')->constrained('users')->onDelete('restrict');
             $table->timestamps();

@@ -28,6 +28,6 @@ return [
     'undeleteable' => 'Vendor data cannot be deleted.',
 
     // Attributes
-    'title' => 'Vendor Title',
+    'name' => 'Vendor Name',
     'description' => 'Vendor Description',
 ];

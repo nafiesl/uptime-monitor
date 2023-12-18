@@ -13,9 +13,9 @@ class VendorFactory extends Factory
     public function definition()
     {
         return [
-            'title'       => $this->faker->word,
+            'name' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'creator_id'  => function () {
+            'creator_id' => function () {
                 return User::factory()->create()->id;
             },
         ];

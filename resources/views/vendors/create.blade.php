@@ -9,7 +9,7 @@
             <div class="card-header">{{ __('vendor.create') }}</div>
             {{ Form::open(['route' => 'vendors.store']) }}
             <div class="card-body">
-                {!! FormField::text('title', ['required' => true, 'label' => __('vendor.title')]) !!}
+                {!! FormField::text('name', ['required' => true, 'label' => __('vendor.name')]) !!}
                 {!! FormField::textarea('description', ['label' => __('vendor.description')]) !!}
             </div>
             <div class="card-footer">

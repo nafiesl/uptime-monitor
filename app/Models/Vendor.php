@@ -10,14 +10,14 @@ class Vendor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'creator_id'];
+    protected $fillable = ['name', 'description', 'creator_id'];
 
     public function getTitleLinkAttribute()
     {
-        return link_to_route('vendors.show', $this->title, [$this], [
+        return link_to_route('vendors.show', $this->name, [$this], [
             'title' => __(
                 'app.show_detail_title',
-                ['title' => $this->title, 'type' => __('vendor.vendor')]
+                ['title' => $this->name, 'type' => __('vendor.vendor')]
             ),
         ]);
     }

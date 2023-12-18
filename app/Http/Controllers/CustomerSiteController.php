@@ -24,7 +24,7 @@ class CustomerSiteController extends Controller
     public function create()
     {
         $this->authorize('create', new CustomerSite);
-        $availableVendors = Vendor::orderBy('title')->pluck('title', 'id');
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
         return view('customer_sites.create', compact('availableVendors'));
     }
@@ -99,7 +99,7 @@ class CustomerSiteController extends Controller
     public function edit(CustomerSite $customerSite)
     {
         $this->authorize('update', $customerSite);
-        $availableVendors = Vendor::orderBy('title')->pluck('title', 'id');
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
         return view('customer_sites.edit', compact('customerSite', 'availableVendors'));
     }

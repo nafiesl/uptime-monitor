@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Vendor;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ManageVendorTest extends TestCase
 {
@@ -17,13 +17,13 @@ class ManageVendorTest extends TestCase
 
         $this->loginAsUser();
         $this->visitRoute('vendors.index');
-        $this->see($vendor->title);
+        $this->see($vendor->name);
     }
 
     private function getCreateFields(array $overrides = [])
     {
         return array_merge([
-            'title'       => 'Vendor 1 title',
+            'name' => 'Vendor 1 name',
             'description' => 'Vendor 1 description',
         ], $overrides);
     }
@@ -45,25 +45,25 @@ class ManageVendorTest extends TestCase
     }
 
     /** @test */
-    public function validate_vendor_title_is_required()
+    public function validate_vendor_name_is_required()
     {
         $this->loginAsUser();
 
-        // title empty
-        $this->post(route('vendors.store'), $this->getCreateFields(['title' => '']));
-        $this->assertSessionHasErrors('title');
+        // name empty
+        $this->post(route('vendors.store'), $this->getCreateFields(['name' => '']));
+        $this->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function validate_vendor_title_is_not_more_than_60_characters()
+    public function validate_vendor_name_is_not_more_than_60_characters()
     {
         $this->loginAsUser();
 
-        // title 70 characters
+        // name 70 characters
         $this->post(route('vendors.store'), $this->getCreateFields([
-            'title' => str_repeat('Test Title', 7),
+            'name' => str_repeat('Test Title', 7),
         ]));
-        $this->assertSessionHasErrors('title');
+        $this->assertSessionHasErrors('name');
     }
 
     /** @test */
@@ -81,7 +81,7 @@ class ManageVendorTest extends TestCase
     private function getEditFields(array $overrides = [])
     {
         return array_merge([
-            'title'       => 'Vendor 1 title',
+            'name' => 'Vendor 1 name',
             'description' => 'Vendor 1 description',
         ], $overrides);
     }
@@ -90,7 +90,7 @@ class ManageVendorTest extends TestCase
     public function user_can_edit_a_vendor()
     {
         $this->loginAsUser();
-        $vendor = Vendor::factory()->create(['title' => 'Testing 123']);
+        $vendor = Vendor::factory()->create(['name' => 'Testing 123']);
 
         $this->visitRoute('vendors.show', $vendor);
         $this->click('edit-vendor-'.$vendor->id);
@@ -106,34 +106,34 @@ class ManageVendorTest extends TestCase
     }
 
     /** @test */
-    public function validate_vendor_title_update_is_required()
+    public function validate_vendor_name_update_is_required()
     {
         $this->loginAsUser();
-        $vendor = Vendor::factory()->create(['title' => 'Testing 123']);
+        $vendor = Vendor::factory()->create(['name' => 'Testing 123']);
 
-        // title empty
-        $this->patch(route('vendors.update', $vendor), $this->getEditFields(['title' => '']));
-        $this->assertSessionHasErrors('title');
+        // name empty
+        $this->patch(route('vendors.update', $vendor), $this->getEditFields(['name' => '']));
+        $this->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function validate_vendor_title_update_is_not_more_than_60_characters()
+    public function validate_vendor_name_update_is_not_more_than_60_characters()
     {
         $this->loginAsUser();
-        $vendor = Vendor::factory()->create(['title' => 'Testing 123']);
+        $vendor = Vendor::factory()->create(['name' => 'Testing 123']);
 
-        // title 70 characters
+        // name 70 characters
         $this->patch(route('vendors.update', $vendor), $this->getEditFields([
-            'title' => str_repeat('Test Title', 7),
+            'name' => str_repeat('Test Title', 7),
         ]));
-        $this->assertSessionHasErrors('title');
+        $this->assertSessionHasErrors('name');
     }
 
     /** @test */
     public function validate_vendor_description_update_is_not_more_than_255_characters()
     {
         $this->loginAsUser();
-        $vendor = Vendor::factory()->create(['title' => 'Testing 123']);
+        $vendor = Vendor::factory()->create(['name' => 'Testing 123']);
 
         // description 256 characters
         $this->patch(route('vendors.update', $vendor), $this->getEditFields([

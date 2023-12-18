@@ -17,10 +17,10 @@ class VendorTest extends TestCase
         $vendor = Vendor::factory()->create();
 
         $this->assertEquals(
-            link_to_route('vendors.show', $vendor->title, [$vendor], [
+            link_to_route('vendors.show', $vendor->name, [$vendor], [
                 'title' => __(
                     'app.show_detail_title',
-                    ['title' => $vendor->title, 'type' => __('vendor.vendor')]
+                    ['title' => $vendor->name, 'type' => __('vendor.vendor')]
                 ),
             ]), $vendor->title_link
         );

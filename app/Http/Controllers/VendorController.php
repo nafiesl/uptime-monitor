@@ -10,8 +10,8 @@ class VendorController extends Controller
     public function index(Request $request)
     {
         $vendorQuery = Vendor::query();
-        $vendorQuery->where('title', 'like', '%'.$request->get('q').'%');
-        $vendorQuery->orderBy('title');
+        $vendorQuery->where('name', 'like', '%'.$request->get('q').'%');
+        $vendorQuery->orderBy('name');
         $vendors = $vendorQuery->paginate(25);
 
         return view('vendors.index', compact('vendors'));
@@ -29,7 +29,7 @@ class VendorController extends Controller
         $this->authorize('create', new Vendor);
 
         $newVendor = $request->validate([
-            'title'       => 'required|max:60',
+            'name' => 'required|max:60',
             'description' => 'nullable|max:255',
         ]);
         $newVendor['creator_id'] = auth()->id();
@@ -56,7 +56,7 @@ class VendorController extends Controller
         $this->authorize('update', $vendor);
 
         $vendorData = $request->validate([
-            'title'       => 'required|max:60',
+            'name' => 'required|max:60',
             'description' => 'nullable|max:255',
         ]);
         $vendor->update($vendorData);
