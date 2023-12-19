@@ -23,7 +23,7 @@ class MonitoringController extends Controller
                 $customerSiteQuery->where('vendor_id', $vendorId);
             }
         }
-        $customerSites = $customerSiteQuery->get();
+        $customerSites = $customerSiteQuery->with('vendor')->get();
 
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
         $availableVendors = ['null' => 'n/a'] + $availableVendors;

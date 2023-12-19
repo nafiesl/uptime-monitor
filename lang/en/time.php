@@ -2,6 +2,6 @@
 
 return [
     'every' => 'Every',
-    'minutes' => 'Mins',
+    'minutes' => 'Min|Mins',
     'miliseconds' => 'ms',
 ];

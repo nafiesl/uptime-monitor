@@ -49,7 +49,7 @@
                     <div class="col-md-5">
                         {!! FormField::text('check_interval', [
                             'label' => __('customer_site.check_interval'),
-                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')],
+                            'addon' => ['before' => __('time.every'), 'after' => trans_choice('time.minutes', $customerSite->check_interval)],
                             'type' => 'number',
                             'min' => 1,
                             'max' => 60,
@@ -83,7 +83,7 @@
                     <div class="col-6">
                         {!! FormField::text('notify_user_interval', [
                             'label' => __('customer_site.notify_user_interval'),
-                            'addon' => ['before' => __('time.every'), 'after' => __('time.minutes')],
+                            'addon' => ['before' => __('time.every'), 'after' => trans_choice('time.minutes', $customerSite->notify_user_interval)],
                             'type' => 'number',
                             'min' => 0,
                             'max' => 60,
@@ -102,7 +102,7 @@
                 {{ Form::submit(__('customer_site.update'), ['class' => 'btn btn-warning']) }}
                 {{ link_to_route('customer_sites.show', __('app.cancel'), [$customerSite], ['class' => 'btn btn-link']) }}
                 @can('delete', $customerSite)
-                    {{ link_to_route('customer_sites.edit', __('app.delete'), [$customerSite, 'action' => 'delete'], ['class' => 'btn btn-danger float-right', 'id' => 'del-customer_site-'.$customerSite->id]) }}
+                    {{ link_to_route('customer_sites.edit', __('app.delete'), [$customerSite, 'action' => 'delete'], ['class' => 'btn btn-danger float-end', 'id' => 'del-customer_site-'.$customerSite->id]) }}
                 @endcan
             </div>
             {{ Form::close() }}

@@ -14,11 +14,25 @@
                         <tr><td>{{ __('customer_site.url') }}</td><td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td></tr>
                         <tr><td>{{ __('vendor.vendor') }}</td><td>{{ $customerSite->vendor->name }}</td></tr>
                         <tr><td>{{ __('app.status') }}</td><td>{{ $customerSite->is_active }}</td></tr>
-                        <tr><td>{{ __('customer_site.check_interval') }}</td><td>{{ __('time.every') }} {{ $customerSite->check_interval }} {{ __('time.minutes') }}</td></tr>
+                        <tr>
+                            <td>{{ __('customer_site.check_interval') }}</td>
+                            <td>
+                                {{ __('time.every') }}
+                                {{ $customerSite->check_interval }}
+                                {{ trans_choice('time.minutes', $customerSite->check_interval) }}
+                            </td>
+                        </tr>
                         <tr><td>{{ __('customer_site.priority_code') }}</td><td>{{ $customerSite->priority_code }}</td></tr>
                         <tr><td>{{ __('customer_site.warning_threshold') }}</td><td>{{ $customerSite->warning_threshold }} {{ __('time.miliseconds') }}</td></tr>
                         <tr><td>{{ __('customer_site.down_threshold') }}</td><td>{{ $customerSite->down_threshold }} {{ __('time.miliseconds') }}</td></tr>
-                        <tr><td>{{ __('customer_site.notify_user_interval') }}</td><td>{{ __('time.every') }} {{ $customerSite->notify_user_interval }} {{ __('time.minutes') }}</td></tr>
+                        <tr>
+                            <td>{{ __('customer_site.notify_user_interval') }}</td>
+                            <td>
+                                {{ __('time.every') }}
+                                {{ $customerSite->notify_user_interval }}
+                                {{ trans_choice('time.minutes', $customerSite->notify_user_interval) }}
+                            </td>
+                        </tr>
                         <tr><td>{{ __('customer_site.last_check_at') }}</td><td>{{ optional($customerSite->last_check_at)->diffForHumans() }}</td></tr>
                         <tr><td>{{ __('customer_site.last_notify_user_at') }}</td><td>{{ optional($customerSite->last_notify_user_at)->diffForHumans() }}</td></tr>
                         <tr><td>{{ __('app.created_at') }}</td><td>{{ $customerSite->created_at }}</td></tr>
