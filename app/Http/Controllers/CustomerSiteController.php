@@ -57,34 +57,8 @@ class CustomerSiteController extends Controller
 
     public function show(Request $request, CustomerSite $customerSite)
     {
-        $startTime = Carbon::now()->subHour();
         $timeRange = request('time_range', '1h');
-        switch ($timeRange) {
-            case '6h':
-                $startTime = Carbon::now()->subHours(6);
-                break;
-            case '24h':
-                $startTime = Carbon::now()->subHours(24);
-                break;
-            case '7d':
-                $startTime = Carbon::now()->subDays(7);
-                break;
-            case '14d':
-                $startTime = Carbon::now()->subDays(14);
-                break;
-            case '30d':
-                $startTime = Carbon::now()->subDays(30);
-                break;
-            case '3Mo':
-                $startTime = Carbon::now()->subMonths(3);
-                break;
-            case '6Mo':
-                $startTime = Carbon::now()->subMonths(6);
-                break;
-            default:
-                $startTime = Carbon::now()->subHours(1);
-                break;
-        }
+        $startTime = $this->getStartTimeByTimeRage($timeRange);
         if ($request->get('start_time')) {
             $timeRange = null;
             $startTime = Carbon::parse($request->get('start_time'));
@@ -145,5 +119,39 @@ class CustomerSiteController extends Controller
         }
 
         return back();
+    }
+
+    public function timeline(Request $request, CustomerSite $customerSite)
+    {
+        $timeRange = request('time_range', '1h');
+        $startTime = $this->getStartTimeByTimeRage($timeRange);
+        if ($request->get('start_time')) {
+            $timeRange = null;
+            $startTime = Carbon::parse($request->get('start_time'));
+        }
+        $endTime = Carbon::now();
+        if ($request->get('start_time')) {
+            $endTime = Carbon::parse($request->get('end_time'));
+        }
+        $logQuery = DB::table('monitoring_logs');
+        $logQuery->where('customer_site_id', $customerSite->id);
+        $logQuery->whereBetween('created_at', [$startTime, $endTime]);
+        $monitoringLogs = $logQuery->latest()->paginate(60);
+
+        return view('customer_sites.timeline', compact('customerSite', 'monitoringLogs', 'startTime', 'endTime', 'timeRange'));
+    }
+
+    private function getStartTimeByTimeRage(string $timeRange): Carbon
+    {
+        switch ($timeRange) {
+            case '6h':return Carbon::now()->subHours(6);
+            case '24h':return Carbon::now()->subHours(24);
+            case '7d':return Carbon::now()->subDays(7);
+            case '14d':return Carbon::now()->subDays(14);
+            case '30d':return Carbon::now()->subDays(30);
+            case '3Mo':return Carbon::now()->subMonths(3);
+            case '6Mo':return Carbon::now()->subMonths(6);
+            default:return Carbon::now()->subHours(1);
+        }
     }
 }

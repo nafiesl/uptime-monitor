@@ -37,9 +37,6 @@
                                 <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('timeline') }}">Timeline</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('customer_sites.index') }}">{{ __('customer_site.customer_site') }}</a>
                             </li>
                             <li class="nav-item">

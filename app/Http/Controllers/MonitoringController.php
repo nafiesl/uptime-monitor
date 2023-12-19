@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
-use App\Models\MonitoringLog;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 
@@ -29,17 +28,5 @@ class MonitoringController extends Controller
         $availableVendors = ['null' => 'n/a'] + $availableVendors;
 
         return view('monitoring.index', compact('customerSites', 'availableVendors'));
-    }
-
-    public function timeline()
-    {
-        $customerSites = CustomerSite::orderBy('name')->pluck('name', 'id');
-        $logQuery = MonitoringLog::query();
-        if (request('customer_site_id')) {
-            $logQuery->where('customer_site_id', request('customer_site_id'));
-        }
-        $logs = $logQuery->orderBy('created_at', 'desc')->with('customerSite')->paginate(60);
-
-        return view('timeline', compact('logs', 'customerSites'));
     }
 }
