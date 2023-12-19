@@ -12,13 +12,23 @@ class CustomerSiteController extends Controller
 {
     public function index(Request $request)
     {
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
+        $availableVendors = ['null' => 'n/a'] + $availableVendors;
+
         $customerSiteQuery = CustomerSite::query();
         $customerSiteQuery->where('name', 'like', '%'.$request->get('q').'%');
         $customerSiteQuery->orderBy('name');
         $customerSiteQuery->where('owner_id', auth()->id());
-        $customerSites = $customerSiteQuery->paginate(25);
+        if ($vendorId = $request->get('vendor_id')) {
+            if ($vendorId == 'null') {
+                $customerSiteQuery->whereNull('vendor_id');
+            } else {
+                $customerSiteQuery->where('vendor_id', $vendorId);
+            }
+        }
+        $customerSites = $customerSiteQuery->with('vendor')->paginate(25);
 
-        return view('customer_sites.index', compact('customerSites'));
+        return view('customer_sites.index', compact('customerSites', 'availableVendors'));
     }
 
     public function create()
