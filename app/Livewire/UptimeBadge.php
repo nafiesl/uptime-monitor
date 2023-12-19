@@ -32,7 +32,7 @@ class UptimeBadge extends Component
         $monitoringLogs = $customerSite->monitoringLogs()
             ->latest('id')
             ->take(15)
-            ->get(['response_time', 'created_at'])
+            ->get(['response_time', 'status_code', 'created_at'])
             ->sortKeysDesc()
             ->map(function ($monitoringLog) use ($customerSite) {
                 $monitoringLog->uptime_badge_bg_color = $this->getUptimeBadgeBgColor($customerSite, $monitoringLog);
@@ -45,10 +45,19 @@ class UptimeBadge extends Component
 
     private function getUptimeBadgeBgColor(CustomerSite $customerSite, MonitoringLog $monitoringLog): string
     {
-        if ($monitoringLog->response_time > $customerSite->down_threshold) {
+        if ($monitoringLog->status_code >= 500) {
             return 'danger';
         }
-        if ($monitoringLog->response_time > $customerSite->warning_threshold) {
+        if ($monitoringLog->status_code >= 400) {
+            return 'danger';
+        }
+        if ($monitoringLog->response_time >= $customerSite->down_threshold) {
+            return 'danger';
+        }
+        if ($monitoringLog->status_code >= 300) {
+            return 'warning';
+        }
+        if ($monitoringLog->response_time >= $customerSite->warning_threshold) {
             return 'warning';
         }
 
@@ -57,6 +66,6 @@ class UptimeBadge extends Component
 
     private function getUptimeBadgeTitle(MonitoringLog $monitoringLog): string
     {
-        return $monitoringLog->created_at.' ('.number_format($monitoringLog->response_time).' ms)';
+        return $monitoringLog->created_at.' (time:'.number_format($monitoringLog->response_time).'ms code:'.$monitoringLog->status_code.')';
     }
 }
