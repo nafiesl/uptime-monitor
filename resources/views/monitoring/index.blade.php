@@ -2,37 +2,34 @@
 
 @section('content')
 
-<div class="page-header mt-0">
-    <div class="float-end">
-        {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-2 align-items-center']) }}
-        <div class="col-12">
-            {!! Form::text('q', request('q'), ['placeholder' => __('app.search'), 'style' => 'width:160px']) !!}
-        </div>
-        <div class="col-12">
-            {!! Form::select('vendor_id', $availableVendors, request('vendor_id'), ['placeholder' => __('vendor.all')]) !!}
-        </div>
-        <div class="col-12">
-            {{ Form::hidden('uptime_poll', request('uptime_poll', 0)) }}
-            {{ Form::submit(__('app.search'), []) }}
-            {{ link_to_route('home', __('app.reset'), [], ['class' => 'btn btn-link']) }}
-        </div>
-        {{ Form::close() }}
+<div class="row">
+    <div class="col-md-6">
+        <h1>
+            Dashboard
+            @if (request('uptime_poll', 0))
+                <a href="{{ route('home', ['uptime_poll' => 0] + Request::except(['uptime_poll'])) }}" class="btn btn-danger">STOP Monitoring</a>
+            @else
+                <a href="{{ route('home', ['uptime_poll' => 1] + Request::except(['uptime_poll'])) }}" class="btn btn-info">START Monitoring</a>
+            @endif
+        </h1>
     </div>
-    <h1 class="page-title">
-        Dashboard
-        @php
-            $uptimePoll = request('uptime_poll', 0);
-        @endphp
-        @if ($uptimePoll)
-            <a href="{{ route('home', ['uptime_poll' => 0] + Request::except(['uptime_poll'])) }}" class="btn btn-danger">
-                STOP Monitoring
-            </a>
-        @else
-            <a href="{{ route('home', ['uptime_poll' => 1] + Request::except(['uptime_poll'])) }}" class="btn btn-info">
-                START Monitoring
-            </a>
-        @endif
-    </h1>
+    <div class="col-md-6">
+        <div class="float-end">
+            {{ Form::open(['method' => 'get', 'class' => 'row row-cols-lg-auto g-2 align-items-center']) }}
+            <div class="col-6">
+                {!! Form::text('q', request('q'), ['placeholder' => __('app.search'), 'style' => 'width:160px']) !!}
+            </div>
+            <div class="col-6">
+                {!! Form::select('vendor_id', $availableVendors, request('vendor_id'), ['placeholder' => __('vendor.all')]) !!}
+            </div>
+            <div class="col-12">
+                {{ Form::hidden('uptime_poll', request('uptime_poll', 0)) }}
+                {{ Form::submit(__('app.search')) }}
+                {{ link_to_route('home', __('app.reset'), Request::only(['uptime_poll']), ['class' => 'btn btn-link']) }}
+            </div>
+            {{ Form::close() }}
+        </div>
+    </div>
 </div>
 <br>
 <div class="row mb-4">
