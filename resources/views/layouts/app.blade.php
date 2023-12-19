@@ -43,6 +43,9 @@
                                 <a class="nav-link" href="{{ route('customer_sites.index') }}">{{ __('customer_site.customer_site') }}</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('vendors.index') }}">{{ __('vendor.vendor') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('profile.show') }}">{{ __('user.profile') }}</a>
                             </li>
                         @endauth

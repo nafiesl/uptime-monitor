@@ -12,6 +12,7 @@
                     <tbody>
                         <tr><td>{{ __('customer_site.name') }}</td><td>{{ $customerSite->name }}</td></tr>
                         <tr><td>{{ __('customer_site.url') }}</td><td>{{ $customerSite->url }}</td></tr>
+                        <tr><td>{{ __('vendor.vendor') }}</td><td>{{ $customerSite->vendor->name }}</td></tr>
                         <tr><td>{{ __('app.status') }}</td><td>{{ $customerSite->is_active }}</td></tr>
                         <tr><td>{{ __('customer_site.check_interval') }}</td><td>{{ __('time.every') }} {{ $customerSite->check_interval }} {{ __('time.minutes') }}</td></tr>
                         <tr><td>{{ __('customer_site.priority_code') }}</td><td>{{ $customerSite->priority_code }}</td></tr>

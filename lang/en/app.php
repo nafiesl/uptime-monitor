@@ -5,6 +5,7 @@ return [
     'table_no' => '#',
     'total' => 'Total',
     'action' => 'Actions',
+    'search' => 'Search',
     'show_detail_title' => 'View :title :type detail',
     'back_to_dashboard' => 'Back to Dashboard',
 

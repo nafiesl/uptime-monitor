@@ -36,7 +36,14 @@
             <div class="card-header">{{ __('customer_site.edit') }}</div>
             {{ Form::model($customerSite, ['route' => ['customer_sites.update', $customerSite], 'method' => 'patch']) }}
             <div class="card-body">
-                {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name')]) !!}
+                <div class="row">
+                    <div class="col-md-8">
+                        {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name')]) !!}
+                    </div>
+                    <div class="col-md-4">
+                        {!! FormField::select('vendor_id', $availableVendors, ['label' => __('vendor.vendor')]) !!}
+                    </div>
+                </div>
                 {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
                 <div class="row">
                     <div class="col-md-5">

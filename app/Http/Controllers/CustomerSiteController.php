@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,20 +12,31 @@ class CustomerSiteController extends Controller
 {
     public function index(Request $request)
     {
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
+        $availableVendors = ['null' => 'n/a'] + $availableVendors;
+
         $customerSiteQuery = CustomerSite::query();
         $customerSiteQuery->where('name', 'like', '%'.$request->get('q').'%');
         $customerSiteQuery->orderBy('name');
         $customerSiteQuery->where('owner_id', auth()->id());
-        $customerSites = $customerSiteQuery->paginate(25);
+        if ($vendorId = $request->get('vendor_id')) {
+            if ($vendorId == 'null') {
+                $customerSiteQuery->whereNull('vendor_id');
+            } else {
+                $customerSiteQuery->where('vendor_id', $vendorId);
+            }
+        }
+        $customerSites = $customerSiteQuery->with('vendor')->paginate(25);
 
-        return view('customer_sites.index', compact('customerSites'));
+        return view('customer_sites.index', compact('customerSites', 'availableVendors'));
     }
 
     public function create()
     {
         $this->authorize('create', new CustomerSite);
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.create');
+        return view('customer_sites.create', compact('availableVendors'));
     }
 
     public function store(Request $request)
@@ -34,6 +46,7 @@ class CustomerSiteController extends Controller
         $newCustomerSite = $request->validate([
             'name' => 'required|max:60',
             'url' => 'required|max:255',
+            'vendor_id' => 'nullable|exists:vendors,id',
         ]);
         $newCustomerSite['owner_id'] = auth()->id();
 
@@ -96,8 +109,9 @@ class CustomerSiteController extends Controller
     public function edit(CustomerSite $customerSite)
     {
         $this->authorize('update', $customerSite);
+        $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.edit', compact('customerSite'));
+        return view('customer_sites.edit', compact('customerSite', 'availableVendors'));
     }
 
     public function update(Request $request, CustomerSite $customerSite)
@@ -107,6 +121,7 @@ class CustomerSiteController extends Controller
         $customerSiteData = $request->validate([
             'name' => 'required|max:60',
             'url' => 'required|max:255',
+            'vendor_id' => 'nullable|exists:vendors,id',
             'is_active' => 'required|in:0,1',
             'check_interval' => ['required', 'numeric', 'min:1', 'max:60'],
             'priority_code' => 'required|in:high,normal,low',
