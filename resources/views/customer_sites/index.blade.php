@@ -45,7 +45,7 @@
                     <tr>
                         <td class="text-center">{{ $customerSites->firstItem() + $key }}</td>
                         <td>{{ $customerSite->name }}</td>
-                        <td>{{ $customerSite->url }}</td>
+                        <td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td>
                         <td>{{ $customerSite->vendor->name }}</td>
                         <td class="text-center">{{ $customerSite->is_active }}</td>
                         <td class="text-center">
