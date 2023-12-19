@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 order-2 order-md-1">
         <div class="card">
             <div class="card-header">{{ __('customer_site.detail') }}</div>
             <div class="card-body">
@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 order-1 order-md-2">
         <div class="py-4 py-md-0 clearfix">
             <div class="btn-group mb-3" role="group">
                 {{ link_to_route(Route::currentRouteName(), '1h', [$customerSite, 'time_range' => '1h'], ['class' => 'px-2 btn btn-outline-primary'.($timeRange == '1h' ? ' active' : '')]) }}
