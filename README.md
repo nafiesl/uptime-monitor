@@ -60,9 +60,37 @@ This application can be installed on local server and online server with these s
 1. After adding customer sites, go to **Dashboard**
 1. Click **Start Monitoring** to update the uptime badge per minute.
 
+### Telegram Notifier Setup
+
+In order to get notified in Telegram when the customer sites are down, we need to use a Telegram Bot and a Chat ID
+
+1. Create a Telegram Bot ([how to](https://gist.github.com/nafiesl/4ad622f344cd1dc3bb1ecbe468ff9f8a#create-a-telegram-bot-and-get-a-bot-token))
+1. Get a Chat ID of the Telegram Bot ([how to](https://gist.github.com/nafiesl/4ad622f344cd1dc3bb1ecbe468ff9f8a#get-chat-id-for-a-private-chat))
+1. Update `.env` file, set `TELEGRAM_NOTIFER_TOKEN=your_telegram_bot_token`
+1. Set our Chat ID in the Profile Page.
+    - Go to User Profile -> Click Edit Profile
+    - Fill the Telegram Chat ID field with `your_chat_id`
+    - Click Update Profile
+1. By default, we will have **5 minutes** inteval when the customer sites are down. But we can change the interval per customer sites.
+    - Go to Customer Site menu
+    - Select one of the customer site and click Edit link
+    - Set the Notify User Interval field, between 0 to 60.
+    - Set the Notify User Interval field to 0 if you don't want to get notified.
+
 ## Screenshot
 
-TODO
+#### Dashboard
+![screen_2023-12-20_004](https://github.com/nafiesl/uptime-monitor/assets/8721551/7b115df3-f2c0-467e-ba1e-b488c0452bc1)
+#### Dashboard in mobile device
+![screen_2023-12-20_009](https://github.com/nafiesl/uptime-monitor/assets/8721551/11173d6f-437d-49b0-a509-2ddeb7e69b7e)
+#### Monitoring graph on customer site detail
+![screen_2023-12-20_005](https://github.com/nafiesl/uptime-monitor/assets/8721551/4f412aaf-8848-484b-8ad8-a625898ea187)
+#### Monitoring log tab on customer site detail
+![screen_2023-12-20_006](https://github.com/nafiesl/uptime-monitor/assets/8721551/2cbbda3c-a13c-4818-8ab7-25ca0ad04b53)
+#### User profile menu
+![screen_2023-12-20_007](https://github.com/nafiesl/uptime-monitor/assets/8721551/6f352dc4-bfbe-4b1a-8d0e-ee5df4e97ca1)
+#### Telegram notification sample
+![screen_2023-12-20_008](https://github.com/nafiesl/uptime-monitor/assets/8721551/15ebca99-d920-4764-a567-06e2e1b748df)
 
 ## Lisensi
 
