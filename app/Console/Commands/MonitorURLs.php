@@ -26,7 +26,7 @@ class MonitorURLs extends Command
 
             $start = microtime(true);
             try {
-                $response = Http::timeout(10)->get($customerSite->url);
+                $response = Http::timeout($customerSite->down_threshold / 1000)->get($customerSite->url);
                 $statusCode = $response->status();
             } catch (ConnectionException $e) {
                 $statusCode = 500;
