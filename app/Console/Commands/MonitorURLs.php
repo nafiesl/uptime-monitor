@@ -5,9 +5,11 @@ namespace App\Console\Commands;
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class MonitorURLs extends Command
 {
@@ -29,6 +31,10 @@ class MonitorURLs extends Command
                 $response = Http::timeout($customerSite->down_threshold / 1000)->get($customerSite->url);
                 $statusCode = $response->status();
             } catch (ConnectionException $e) {
+                Log::channel('daily')->error($e);
+                $statusCode = 500;
+            } catch (RequestException $e) {
+                Log::channel('daily')->error($e);
                 $statusCode = 500;
             }
             $end = microtime(true);
