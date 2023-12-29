@@ -16,7 +16,9 @@
                         <td>{{ __('user.telegram_chat_id') }}</td>
                         <td>
                             {{ $user->telegram_chat_id }}
-                            @livewire('telegram-test-button')
+                            @if (config('services.telegram_notifier.token') && $user->telegram_chat_id)
+                                @livewire('telegram-test-button')
+                            @endif
                         </td>
                     </tr>
                 </tbody>
