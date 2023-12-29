@@ -1,5 +1,5 @@
-<span>
-    <button wire:click="testTelegram()" class="btn btn-info float-end">
+<div>
+    <button wire:click="testTelegram()" class="btn btn-info">
         <span wire:loading>
             Sending message...
         </span>
@@ -7,4 +7,5 @@
             Test Telegram Chat
         </span>
     </button>
-</span>
+    <div>{{ $message }}</div>
+</div>

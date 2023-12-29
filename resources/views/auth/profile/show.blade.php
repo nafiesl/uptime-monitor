@@ -10,7 +10,7 @@
         <div class="card">
             <table class="table table-sm card-table mb-0">
                 <tbody>
-                    <tr><td>{{ __('user.name') }}</td><td>{{ $user->name }}</td></tr>
+                    <tr><td class="col-md-3">{{ __('user.name') }}</td><td class="col-md-9">{{ $user->name }}</td></tr>
                     <tr><td>{{ __('user.email') }}</td><td>{{ $user->email }}</td></tr>
                     <tr>
                         <td>{{ __('user.telegram_chat_id') }}</td>
