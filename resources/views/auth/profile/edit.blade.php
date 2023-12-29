@@ -14,7 +14,7 @@
                             {!! FormField::email('email', ['required' => true, 'label' => __('user.email')]) !!}
                         </div>
                         <div class="col-md-6">
-                            {!! FormField::text('telegram_chat_id', ['required' => true, 'label' => __('user.telegram_chat_id')]) !!}
+                            {!! FormField::text('telegram_chat_id', ['label' => __('user.telegram_chat_id')]) !!}
                         </div>
                     </div>
                 </div>

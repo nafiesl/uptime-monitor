@@ -68,9 +68,11 @@ In order to get notified in Telegram when the customer sites are down, we need t
 1. Get a Chat ID of the Telegram Bot ([how to](https://gist.github.com/nafiesl/4ad622f344cd1dc3bb1ecbe468ff9f8a#get-chat-id-for-a-private-chat))
 1. Update `.env` file, set `TELEGRAM_NOTIFER_TOKEN=your_telegram_bot_token`
 1. Set our Chat ID in the Profile Page.
-    - Go to User Profile -> Click Edit Profile
+    - Go to User Profile Menu
+    - Click Edit Profile
     - Fill the Telegram Chat ID field with `your_chat_id`
     - Click Update Profile
+    - Click **Test Telegram Chat** to test the telegram configuration
 1. By default, we will have **5 minutes** inteval when the customer sites are down. But we can change the interval per customer sites.
     - Go to Customer Site menu
     - Select one of the customer site and click Edit link
