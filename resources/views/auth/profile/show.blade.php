@@ -13,8 +13,8 @@
                     <tr><td class="col-md-3">{{ __('user.name') }}</td><td class="col-md-9">{{ $user->name }}</td></tr>
                     <tr><td>{{ __('user.email') }}</td><td>{{ $user->email }}</td></tr>
                     <tr>
-                        <td>{{ __('user.telegram_chat_id') }}</td>
-                        <td>
+                        <td class="align-middle">{{ __('user.telegram_chat_id') }}</td>
+                        <td class="align-middle">
                             {{ $user->telegram_chat_id }}
                             @if (config('services.telegram_notifier.token') && $user->telegram_chat_id)
                                 @livewire('telegram-test-button')
