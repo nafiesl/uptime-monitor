@@ -8,11 +8,17 @@
             <h1 class="page-title">{{  __('user.profile').' - '.$user->name }}</h1>
         </div>
         <div class="card">
-            <table class="table table-sm card-table">
+            <table class="table table-sm card-table mb-0">
                 <tbody>
                     <tr><td>{{ __('user.name') }}</td><td>{{ $user->name }}</td></tr>
                     <tr><td>{{ __('user.email') }}</td><td>{{ $user->email }}</td></tr>
-                    <tr><td>{{ __('user.telegram_chat_id') }}</td><td>{{ $user->telegram_chat_id }}</td></tr>
+                    <tr>
+                        <td>{{ __('user.telegram_chat_id') }}</td>
+                        <td>
+                            {{ $user->telegram_chat_id }}
+                            @livewire('telegram-test-button')
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="card-footer">
