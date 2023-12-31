@@ -25,6 +25,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('customer_sites/{customer_site}/timeline', [CustomerSiteController::class, 'timeline'])
         ->name('customer_sites.timeline');
+    Route::post('customer_sites/{customer_site}/check_now', [CustomerSiteController::class, 'checkNow'])
+        ->name('customer_sites.check_now');
     Route::resource('customer_sites', CustomerSiteController::class);
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');

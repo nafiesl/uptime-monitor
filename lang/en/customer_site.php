@@ -26,6 +26,7 @@ return [
     'deleted' => 'Customer Site has been deleted.',
     'undeleted' => 'Customer Site not deleted.',
     'undeleteable' => 'Customer Site data cannot be deleted.',
+    'check_now' => 'Check Now',
 
     // Attributes
     'name' => 'Site Name',

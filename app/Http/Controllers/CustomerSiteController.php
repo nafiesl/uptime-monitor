@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerSite;
+use App\Models\MonitoringLog;
 use App\Models\Vendor;
 use Carbon\Carbon;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CustomerSiteController extends Controller
 {
@@ -153,5 +158,37 @@ class CustomerSiteController extends Controller
             case '6Mo':return Carbon::now()->subMonths(6);
             default:return Carbon::now()->subHours(1);
         }
+    }
+
+    public function checkNow(Request $request, CustomerSite $customerSite)
+    {
+        $start = microtime(true);
+        try {
+            $customerSiteTimeout = $customerSite->down_threshold / 1000;
+            $response = Http::timeout($customerSiteTimeout)
+                ->connectTimeout(20)
+                ->get($customerSite->url);
+            $statusCode = $response->status();
+        } catch (ConnectionException $e) {
+            Log::channel('daily')->error($e);
+            $statusCode = 500;
+        } catch (RequestException $e) {
+            Log::channel('daily')->error($e);
+            $statusCode = 500;
+        }
+        $end = microtime(true);
+        $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
+
+        // Log the monitoring result to the database
+        MonitoringLog::create([
+            'customer_site_id' => $customerSite->id,
+            'url' => $customerSite->url,
+            'response_time' => $responseTime,
+            'status_code' => $statusCode,
+        ]);
+        $customerSite->last_check_at = Carbon::now();
+        $customerSite->save();
+
+        return back();
     }
 }

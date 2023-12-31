@@ -6,7 +6,16 @@
 <div class="row">
     <div class="col-md-4 order-2 order-md-1">
         <div class="card">
-            <div class="card-header">{{ __('customer_site.detail') }}</div>
+            <div class="card-header">
+                <div class="float-end">
+                    {!! FormField::formButton(
+                        ['route' => ['customer_sites.check_now', $customerSite->id]],
+                        __('customer_site.check_now'),
+                        ['class' => 'btn btn-success', 'id' => 'check_now_'.$customerSite->id]
+                    ) !!}
+                </div>
+                <h4 class="">{{ __('customer_site.customer_site') }}</h4>
+            </div>
             <div class="card-body">
                 <table class="table table-sm">
                     <tbody>
