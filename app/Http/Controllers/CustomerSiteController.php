@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RunCheck;
 use App\Models\CustomerSite;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class CustomerSiteController extends Controller
 {
@@ -153,5 +155,12 @@ class CustomerSiteController extends Controller
             case '6Mo':return Carbon::now()->subMonths(6);
             default:return Carbon::now()->subHours(1);
         }
+    }
+
+    public function checkNow(Request $request, CustomerSite $customerSite)
+    {
+        RunCheck::dispatch($customerSite);
+
+        return back();
     }
 }

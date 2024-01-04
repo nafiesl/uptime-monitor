@@ -2,14 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\RunCheck;
 use App\Models\CustomerSite;
-use App\Models\MonitoringLog;
-use Carbon\Carbon;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class MonitorURLs extends Command
 {
@@ -26,29 +21,7 @@ class MonitorURLs extends Command
                 continue;
             }
 
-            $start = microtime(true);
-            try {
-                $response = Http::timeout($customerSite->down_threshold / 1000)->get($customerSite->url);
-                $statusCode = $response->status();
-            } catch (ConnectionException $e) {
-                Log::channel('daily')->error($e);
-                $statusCode = 500;
-            } catch (RequestException $e) {
-                Log::channel('daily')->error($e);
-                $statusCode = 500;
-            }
-            $end = microtime(true);
-            $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
-
-            // Log the monitoring result to the database
-            MonitoringLog::create([
-                'customer_site_id' => $customerSite->id,
-                'url' => $customerSite->url,
-                'response_time' => $responseTime,
-                'status_code' => $statusCode,
-            ]);
-            $customerSite->last_check_at = Carbon::now();
-            $customerSite->save();
+            RunCheck::dispatch($customerSite);
         }
 
         $this->info('URLs monitored successfully.');
