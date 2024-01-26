@@ -11,7 +11,8 @@
 <script>
     var options = {
         series: [{
-            data: {!! json_encode($chartData) !!}
+            name: 'Response time (ms)',
+            data: {!! json_encode($chartData) !!},
         }],
         chart: {
             id: 'line-datetime',
@@ -73,7 +74,7 @@
         },
         tooltip: {
             x: {
-                format: 'dd MMM yyyy'
+                format: 'dd MMM HH:mm:ss'
             }
         },
     };
