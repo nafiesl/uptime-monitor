@@ -42,8 +42,20 @@
                                 {{ trans_choice('time.minutes', $customerSite->notify_user_interval) }}
                             </td>
                         </tr>
-                        <tr><td>{{ __('customer_site.last_check_at') }}</td><td>{{ optional($customerSite->last_check_at)->diffForHumans() }}</td></tr>
-                        <tr><td>{{ __('customer_site.last_notify_user_at') }}</td><td>{{ optional($customerSite->last_notify_user_at)->diffForHumans() }}</td></tr>
+                        <tr>
+                            <td>{{ __('customer_site.last_check_at') }}</td>
+                            <td>
+                                {{ $customerSite->last_check_at }} <br>
+                                {{ optional($customerSite->last_check_at)->diffForHumans() }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('customer_site.last_notify_user_at') }}</td>
+                            <td>
+                                {{ $customerSite->last_check_at }} <br>
+                                {{ optional($customerSite->last_notify_user_at)->diffForHumans() }}
+                            </td>
+                        </tr>
                         <tr><td>{{ __('app.created_at') }}</td><td>{{ $customerSite->created_at }}</td></tr>
                         <tr><td>{{ __('app.updated_at') }}</td><td>{{ $customerSite->updated_at }}</td></tr>
                     </tbody>
