@@ -60,7 +60,7 @@ class RunCheck implements ShouldQueue
         $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
 
         // WHEN RESPONSE TIME ABOVE "DOWN" THRESHOLD, EVEN IF HTTP STATUS CODE IS 200, NOTIFY USER
-        if ($statusCode == 200 && $responseTime >= ($customerSite->down_threshold / 1000)) {
+        if ($statusCode == 200 && $responseTime >= $customerSite->down_threshold) {
             $force_notify = true;
             $notifyStatus = "Hit Down Threshold";
         }
