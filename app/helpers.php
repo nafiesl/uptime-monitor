@@ -26,7 +26,7 @@ if (!function_exists('notifyTelegramUser')) {
         $text .= "\n\nLast 5 response time:";
         $text .= "\n";
         foreach ($responseTimes as $responseTime) {
-            $text .= $responseTime->created_at->format('H:i:s').':   '.$responseTime->response_time.' ms';
+            $text .= "Code : $responseTime->status_code | " . $responseTime->created_at->format('H:i:s').':   '.$responseTime->response_time.' ms';
             $text .= "\n";
         }
         $text .= "\nCheck here:";
