@@ -168,4 +168,32 @@ class CustomerSiteController extends Controller
 
         return back();
     }
+
+    // PUBLIC FUNCTION
+    public function public_view(Request $request, $customerSite_id)
+    {
+        $customerSite = CustomerSite::find($customerSite_id);
+
+        $timeRange = request('time_range', '1h');
+        $startTime = $this->getStartTimeByTimeRage($timeRange);
+        if ($request->get('start_time')) {
+            $timeRange = null;
+            $startTime = Carbon::parse($request->get('start_time'));
+        }
+        $endTime = Carbon::now();
+        if ($request->get('start_time')) {
+            $endTime = Carbon::parse($request->get('end_time'));
+        }
+        $logQuery = DB::table('monitoring_logs');
+        $logQuery->where('customer_site_id', $customerSite_id);
+        $logQuery->whereBetween('created_at', [$startTime, $endTime]);
+        $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
+
+        $chartData = [];
+        foreach ($monitoringLogs as $monitoringLog) {
+            $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
+        }
+
+        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime', 'timeRange'));
+    }
 }
