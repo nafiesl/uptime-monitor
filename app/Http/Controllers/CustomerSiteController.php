@@ -47,7 +47,7 @@ class CustomerSiteController extends Controller
 
         $newCustomerSite = $request->validate([
             'name' => 'required|max:60',
-            'url' => 'required|max:255',
+            'url' => 'required|url|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
         ]);
         $newCustomerSite['owner_id'] = auth()->id();

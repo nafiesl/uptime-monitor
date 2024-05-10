@@ -14,10 +14,10 @@
                         {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name'), 'placeholder' => 'Example Web']) !!}
                     </div>
                     <div class="col-md-4">
-                        {!! FormField::select('vendor_id', $availableVendors, ['label' => __('vendor.vendor')]) !!}
+                        {!! FormField::select('vendor_id', $availableVendors, [ 'label' => __('vendor.vendor')]) !!}
                     </div>
                 </div>
-                {!! FormField::text('url', ['label' => __('customer_site.url'), 'placeholder' => 'https://example.net']) !!}
+                {!! FormField::text('url', ['required' => true, 'label' => __('customer_site.url'), 'placeholder' => 'https://example.net']) !!}
             </div>
             <div class="card-footer">
                 {{ Form::submit(__('app.create'), ['class' => 'btn btn-success']) }}
