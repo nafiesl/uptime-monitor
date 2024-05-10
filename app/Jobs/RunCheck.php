@@ -37,7 +37,7 @@ class RunCheck implements ShouldQueue
             } else {
                 $customerSiteTimeout = 30;
             }
-            
+
             $response = Http::timeout($customerSiteTimeout)
                 ->connectTimeout(20)
                 ->get($customerSite->url);
@@ -77,7 +77,7 @@ class RunCheck implements ShouldQueue
                     ->take(5)
                     ->get(['response_time', 'status_code', 'created_at']);
                 
-                notifyTelegramUser($customerSite, $responseTimes);
+                notifyTelegramUser($customerSite, $responseTimes, "Down");
                 $customerSite->last_notify_user_at = Carbon::now();
                 $customerSite->save();
             }
