@@ -27,23 +27,43 @@ class RunCheck implements ShouldQueue
 
     public function handle(): void
     {
+        $force_notify = false;
+        $notifyStatus = "Down";
+
         $customerSite = $this->customerSite;
         $start = microtime(true);
         try {
-            $customerSiteTimeout = $customerSite->down_threshold / 1000;
+            if (config('queue.default') == 'sync') {
+                $customerSiteTimeout = $customerSite->down_threshold / 1000;
+            } else {
+                $customerSiteTimeout = 30;
+            }
+
             $response = Http::timeout($customerSiteTimeout)
                 ->connectTimeout(20)
                 ->get($customerSite->url);
             $statusCode = $response->status();
+
+            if ($statusCode != 200) {
+                $force_notify = true;
+            }
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
-            $statusCode = 500;
+            $statusCode = 504;
+            $force_notify = true;
         } catch (RequestException $e) {
             Log::channel('daily')->error($e);
             $statusCode = 500;
+            $force_notify = true;
         }
         $end = microtime(true);
         $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
+
+        // WHEN RESPONSE TIME ABOVE "DOWN" THRESHOLD, EVEN IF HTTP STATUS CODE IS 200, NOTIFY USER
+        if ($statusCode == 200 && $responseTime >= $customerSite->down_threshold) {
+            $force_notify = true;
+            $notifyStatus = "Hit Down Threshold";
+        }
 
         // Log the monitoring result to the database
         MonitoringLog::create([
@@ -54,5 +74,20 @@ class RunCheck implements ShouldQueue
         ]);
         $customerSite->last_check_at = Carbon::now();
         $customerSite->save();
+
+        // NOTIFY USER IF NEEDED
+        if (!empty(config('services.telegram_notifier.token'))) {
+            if ($force_notify && $customerSite->canNotifyUser()) {
+                $responseTimes = MonitoringLog::query()
+                    ->where('customer_site_id', $customerSite->id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get(['response_time', 'status_code', 'created_at']);
+                
+                notifyTelegramUser($customerSite, $responseTimes, $notifyStatus);
+                $customerSite->last_notify_user_at = Carbon::now();
+                $customerSite->save();
+            }
+        }
     }
 }

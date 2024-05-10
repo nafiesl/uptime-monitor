@@ -7,7 +7,7 @@ Uptime Monitor is a self-hosted web monitoring tool, built with laravel.
 - Monitor your web uptime per minutes (or any time interval)
 - Record response time on each web
 - Show uptime badges in 3 colors: green for up, yellow for warning, red for down, based on response time
-- Send telegram notification when you site down for 5 minutes (based on check periode)
+- Send telegram notification when you site down for 5 minutes (based on check period) or when your site response time above "down" threshold
 
 ## Why I need this?
 
@@ -78,6 +78,9 @@ In order to get notified in Telegram when the customer sites are down, we need t
     - Select one of the customer site and click Edit link
     - Set the Notify User Interval field, between 0 to 60.
     - Set the Notify User Interval field to 0 if you don't want to get notified.
+
+### Tips
+Set QUEUE_CONNECTION variable on your .env to database and use supervisor to optime monitoring check, using this approach you can achieve near to async check proccess
 
 ## Screenshot
 

@@ -3,6 +3,7 @@
 return [
     // Labels
     'customer_site' => 'Customer Site',
+    'type' => 'Site Type',
     'list' => 'Customer Site List',
     'search' => 'Search Customer Site',
     'search_text' => 'Title ...',

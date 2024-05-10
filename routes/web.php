@@ -34,6 +34,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
+// PUBLIC ROUTE
+Route::get('public/monitor/{customer_site}', [CustomerSiteController::class, 'public_view'])->name('customer_sites.public-show');
+Route::get('public/monitor/{customer_site}/timeline', [CustomerSiteController::class, 'timeline'])->name('customer_sites.public-timeline');
+
 /*
  * Vendors Routes
  */

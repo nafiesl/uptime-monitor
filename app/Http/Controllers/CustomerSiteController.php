@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\RunCheck;
 use App\Models\CustomerSite;
+use App\Models\CustomerSiteType;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ class CustomerSiteController extends Controller
     {
         $this->authorize('create', new CustomerSite);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
+        $availableTypes = CustomerSiteType::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.create', compact('availableVendors'));
+        return view('customer_sites.create', compact('availableVendors','availableTypes'));
     }
 
     public function store(Request $request)
@@ -47,8 +49,9 @@ class CustomerSiteController extends Controller
 
         $newCustomerSite = $request->validate([
             'name' => 'required|max:60',
-            'url' => 'required|max:255',
+            'url' => 'required|url|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
+            'type_id' => 'nullable|exists:customer_site_types,id',
         ]);
         $newCustomerSite['owner_id'] = auth()->id();
 
@@ -86,8 +89,9 @@ class CustomerSiteController extends Controller
     {
         $this->authorize('update', $customerSite);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
+        $availableTypes = CustomerSiteType::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.edit', compact('customerSite', 'availableVendors'));
+        return view('customer_sites.edit', compact('customerSite', 'availableVendors', 'availableTypes'));
     }
 
     public function update(Request $request, CustomerSite $customerSite)
@@ -96,8 +100,9 @@ class CustomerSiteController extends Controller
 
         $customerSiteData = $request->validate([
             'name' => 'required|max:60',
-            'url' => 'required|max:255',
+            'url' => 'required|url|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
+            'type_id' => 'nullable|exists:customer_site_types,id',
             'is_active' => 'required|in:0,1',
             'check_interval' => ['required', 'numeric', 'min:1', 'max:60'],
             'priority_code' => 'required|in:high,normal,low',
@@ -162,5 +167,33 @@ class CustomerSiteController extends Controller
         RunCheck::dispatch($customerSite);
 
         return back();
+    }
+
+    // PUBLIC FUNCTION
+    public function public_view(Request $request, $customerSite_id)
+    {
+        $customerSite = CustomerSite::find($customerSite_id);
+
+        $timeRange = request('time_range', '1h');
+        $startTime = $this->getStartTimeByTimeRage($timeRange);
+        if ($request->get('start_time')) {
+            $timeRange = null;
+            $startTime = Carbon::parse($request->get('start_time'));
+        }
+        $endTime = Carbon::now();
+        if ($request->get('start_time')) {
+            $endTime = Carbon::parse($request->get('end_time'));
+        }
+        $logQuery = DB::table('monitoring_logs');
+        $logQuery->where('customer_site_id', $customerSite_id);
+        $logQuery->whereBetween('created_at', [$startTime, $endTime]);
+        $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
+
+        $chartData = [];
+        foreach ($monitoringLogs as $monitoringLog) {
+            $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
+        }
+
+        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime', 'timeRange'));
     }
 }

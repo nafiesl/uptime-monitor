@@ -7,21 +7,26 @@
     <div class="col-md-4 order-2 order-md-1">
         <div class="card">
             <div class="card-header">
+                @auth
                 <div class="float-end">
                     {!! FormField::formButton(
                         ['route' => ['customer_sites.check_now', $customerSite->id]],
                         __('customer_site.check_now'),
                         ['class' => 'btn btn-success', 'id' => 'check_now_'.$customerSite->id]
-                    ) !!}
+                        ) !!}
                 </div>
+                @endauth
                 <h4 class="">{{ __('customer_site.customer_site') }}</h4>
             </div>
             <div class="card-body">
                 <table class="table table-sm">
                     <tbody>
                         <tr><td>{{ __('customer_site.name') }}</td><td>{{ $customerSite->name }}</td></tr>
+                        @auth
                         <tr><td>{{ __('customer_site.url') }}</td><td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td></tr>
+                        @endauth
                         <tr><td>{{ __('vendor.vendor') }}</td><td>{{ $customerSite->vendor->name }}</td></tr>
+                        <tr><td>{{ __('customer_site.type') }}</td><td>{{ $customerSite->type->name }}</td></tr>
                         <tr><td>{{ __('app.status') }}</td><td>{{ $customerSite->is_active }}</td></tr>
                         <tr>
                             <td>{{ __('customer_site.check_interval') }}</td>
@@ -53,7 +58,9 @@
                 @can('update', $customerSite)
                     {{ link_to_route('customer_sites.edit', __('customer_site.edit'), [$customerSite], ['class' => 'btn btn-warning', 'id' => 'edit-customer_site-'.$customerSite->id]) }}
                 @endcan
+                @auth
                 {{ link_to_route('home', __('app.back_to_dashboard'), [], ['class' => 'btn btn-link']) }}
+                @endauth
             </div>
         </div>
     </div>
@@ -85,6 +92,7 @@
             </div>
         </div>
 
+        @auth 
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 {{ link_to_route('customer_sites.show', __('monitoring_log.graph'), [$customerSite->id]+request(['time_range', 'start_time', 'end_time']), ['class' => 'nav-link '.(in_array(Request::segment(3), [null]) ? 'active' : '')]) }}
@@ -93,6 +101,16 @@
                 {{ link_to_route('customer_sites.timeline', __('monitoring_log.monitoring_log'), [$customerSite->id]+request(['time_range', 'start_time', 'end_time']), ['class' => 'nav-link '.(in_array(Request::segment(3), ['timeline']) ? 'active' : '')]) }}
             </li>
         </ul>
+        @else
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                {{ link_to_route('customer_sites.public-show', __('monitoring_log.graph'), [$customerSite->id]+request(['time_range', 'start_time', 'end_time']), ['class' => 'nav-link '.(in_array(Request::segment(4), [null]) ? 'active' : '')]) }}
+            </li>
+            <li class="nav-item">
+                {{ link_to_route('customer_sites.public-timeline', __('monitoring_log.monitoring_log'), [$customerSite->id]+request(['time_range', 'start_time', 'end_time']), ['class' => 'nav-link '.(in_array(Request::segment(3), ['timeline']) ? 'active' : '')]) }}
+            </li>
+        </ul>
+        @endauth
 
         @yield('customer_site_content')
     </div>

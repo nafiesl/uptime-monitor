@@ -11,7 +11,7 @@ class CustomerSite extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'url', 'vendor_id', 'is_active', 'owner_id', 'check_interval', 'priority_code',
+        'name', 'url', 'vendor_id', 'type_id', 'is_active', 'owner_id', 'check_interval', 'priority_code',
         'warning_threshold', 'down_threshold', 'notify_user_interval', 'last_check_at',
     ];
 
@@ -40,6 +40,11 @@ class CustomerSite extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class)->withDefault(['name' => 'n/a']);
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(CustomerSiteType::class)->withDefault(['name' => 'n/a']);
     }
 
     public function needToCheck(): bool
