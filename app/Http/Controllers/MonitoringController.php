@@ -13,6 +13,7 @@ class MonitoringController extends Controller
         $customerSiteQuery = CustomerSite::query();
         $customerSiteQuery->where('is_active', 1);
         $customerSiteQuery->where('name', 'like', '%'.$request->get('q').'%');
+        $customerSiteQuery->orderBy('type_id');
         $customerSiteQuery->orderBy('name');
         $customerSiteQuery->where('owner_id', auth()->id());
         if ($vendorId = $request->get('vendor_id')) {

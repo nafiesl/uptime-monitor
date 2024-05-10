@@ -39,8 +39,7 @@
                 <div class="card-body py-2 px-3">
                     <div class="row">
                         <div class="col-6 px-1">
-                            {{ $customerSite->name }}<br>
-                            <span class="badge bg-secondary">{{ $customerSite->vendor->name }}</span>
+                            {{ $customerSite->name }}
                         </div>
                         <div class="col-6 px-1 text-end">
                             <div class="small" title="{{ __('customer_sites.check_interval') }}: {{ __('time.every') }} {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}">
@@ -50,6 +49,12 @@
                                 'customerSite' => $customerSite,
                                 'uptimePoll' => request('uptime_poll', 0)
                             ])
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 px-1">
+                            <span class="badge bg-secondary">{{ $customerSite->vendor->name }}</span>
+                            {!! $customerSite->type->html_slug !!}
                         </div>
                     </div>
                 </div>

@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CustomerSiteType extends Model
 {
     use HasFactory;
+
+    public function getHtmlSlugAttribute()
+    {
+        if (isset($this->attributes['slug'])) {
+            $slug = $this->attributes['slug'];
+            return "<span class='badge bg-primary'>$slug</span>";
+        }
+    }
 }
