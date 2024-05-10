@@ -36,6 +36,7 @@
                         <th>{{ __('customer_site.name') }}</th>
                         <th>{{ __('customer_site.url') }}</th>
                         <th>{{ __('vendor.vendor') }}</th>
+                        <th>{{ __('customer_site.type') }}</th>
                         <th class="text-center">{{ __('app.status') }}</th>
                         <th class="text-center">{{ __('app.action') }}</th>
                     </tr>
@@ -47,6 +48,7 @@
                         <td>{{ $customerSite->name }}</td>
                         <td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td>
                         <td>{{ $customerSite->vendor->name }}</td>
+                        <td>{{ $customerSite->type->name }}</td>
                         <td class="text-center">{{ $customerSite->is_active }}</td>
                         <td class="text-center">
                             @can('view', $customerSite)
