@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\RunCheck;
 use App\Models\CustomerSite;
+use App\Models\CustomerSiteType;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,8 +38,9 @@ class CustomerSiteController extends Controller
     {
         $this->authorize('create', new CustomerSite);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
+        $availableTypes = CustomerSiteType::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.create', compact('availableVendors'));
+        return view('customer_sites.create', compact('availableVendors','availableTypes'));
     }
 
     public function store(Request $request)
@@ -49,6 +51,7 @@ class CustomerSiteController extends Controller
             'name' => 'required|max:60',
             'url' => 'required|url|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
+            'type_id' => 'nullable|exists:customer_site_types,id',
         ]);
         $newCustomerSite['owner_id'] = auth()->id();
 

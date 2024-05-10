@@ -16,6 +16,9 @@
                     <div class="col-md-4">
                         {!! FormField::select('vendor_id', $availableVendors, [ 'label' => __('vendor.vendor')]) !!}
                     </div>
+                    <div class="col-md-4">
+                        {!! FormField::select('type_id', $availableTypes, [ 'label' => __('customer_site.type')]) !!}
+                    </div>
                 </div>
                 {!! FormField::text('url', ['required' => true, 'label' => __('customer_site.url'), 'placeholder' => 'https://example.net']) !!}
             </div>
