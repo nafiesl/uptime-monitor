@@ -22,6 +22,7 @@
                         <tr><td>{{ __('customer_site.name') }}</td><td>{{ $customerSite->name }}</td></tr>
                         <tr><td>{{ __('customer_site.url') }}</td><td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td></tr>
                         <tr><td>{{ __('vendor.vendor') }}</td><td>{{ $customerSite->vendor->name }}</td></tr>
+                        <tr><td>{{ __('customer_site.type') }}</td><td>{{ $customerSite->type->name }}</td></tr>
                         <tr><td>{{ __('app.status') }}</td><td>{{ $customerSite->is_active }}</td></tr>
                         <tr>
                             <td>{{ __('customer_site.check_interval') }}</td>

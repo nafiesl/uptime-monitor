@@ -43,8 +43,11 @@
                     <div class="col-md-4">
                         {!! FormField::select('vendor_id', $availableVendors, ['label' => __('vendor.vendor')]) !!}
                     </div>
+                    <div class="col-md-4">
+                        {!! FormField::select('type_id', $availableTypes, [ 'label' => __('customer_site.type')]) !!}
+                    </div>
                 </div>
-                {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
+                {!! FormField::text('url', ['required' => true, 'label' => __('customer_site.url')]) !!}
                 <div class="row">
                     <div class="col-md-5">
                         {!! FormField::text('check_interval', [

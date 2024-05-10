@@ -89,8 +89,9 @@ class CustomerSiteController extends Controller
     {
         $this->authorize('update', $customerSite);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
+        $availableTypes = CustomerSiteType::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.edit', compact('customerSite', 'availableVendors'));
+        return view('customer_sites.edit', compact('customerSite', 'availableVendors', 'availableTypes'));
     }
 
     public function update(Request $request, CustomerSite $customerSite)
@@ -99,8 +100,9 @@ class CustomerSiteController extends Controller
 
         $customerSiteData = $request->validate([
             'name' => 'required|max:60',
-            'url' => 'required|max:255',
+            'url' => 'required|url|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
+            'type_id' => 'nullable|exists:customer_site_types,id',
             'is_active' => 'required|in:0,1',
             'check_interval' => ['required', 'numeric', 'min:1', 'max:60'],
             'priority_code' => 'required|in:high,normal,low',
