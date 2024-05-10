@@ -30,7 +30,13 @@ if (!function_exists('notifyTelegramUser')) {
             $text .= "\n";
         }
         $text .= "\nCheck here:";
-        $text .= "\n".route('customer_sites.show', [$customerSite->id]);
+
+        if ($customerSite->visibility == "public") {
+            $text .= "\n".route('customer_sites.public-show', [$customerSite->id]);
+        } else {
+            $text .= "\n".route('customer_sites.show', [$customerSite->id]);
+        }
+
         Http::post($endpoint, [
             'chat_id' => $telegramChatId,
             'text' => $text,
