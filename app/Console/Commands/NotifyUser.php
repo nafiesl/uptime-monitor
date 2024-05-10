@@ -35,7 +35,12 @@ class NotifyUser extends Command
                 ->get(['response_time', 'status_code', 'created_at']);
             $responseTimeAverage = $responseTimes->avg('response_time');
             if ($responseTimeAverage >= ($customerSite->down_threshold * 0.9)) {
-                notifyTelegramUser($customerSite, $responseTimes, "Slow");
+                // DETERMINE IS WEBISTE SLOW OR DOWN
+                $latest_log = $responseTimes->first();
+                if ($latest_log->status_code != 200) $webStatus = "Down";
+                else $webStatus = "Slow";
+
+                notifyTelegramUser($customerSite, $responseTimes, $webStatus);
                 $customerSite->last_notify_user_at = Carbon::now();
                 $customerSite->save();
             }
