@@ -43,7 +43,7 @@ class RunCheck implements ShouldQueue
             }
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
-            $statusCode = 500;
+            $statusCode = 504;
             $force_notify = true;
         } catch (RequestException $e) {
             Log::channel('daily')->error($e);
