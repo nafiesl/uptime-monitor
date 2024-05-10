@@ -28,6 +28,20 @@ class MonitoringController extends Controller
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
         $availableVendors = ['null' => 'n/a'] + $availableVendors;
 
-        return view('monitoring.index', compact('customerSites', 'availableVendors'));
+        $theBlock = array();
+        $theCustomerSites = array();
+        foreach ($customerSites as $site) {
+            $theBlock[$site->type->name][] = $site;
+        }
+
+        foreach ($theBlock as $theEnv => $site) {
+            $theCustomerSites[] = [
+                'env' => $theEnv,
+                'data' => $site
+            ];
+        }
+
+        
+        return view('monitoring.index', compact('theCustomerSites', 'availableVendors'));
     }
 }

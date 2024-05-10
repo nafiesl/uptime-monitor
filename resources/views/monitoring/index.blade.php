@@ -32,36 +32,44 @@
     </div>
 </div>
 <br>
+
+@foreach ($theCustomerSites as $customerSites)
 <div class="row mb-4">
-    @foreach ($customerSites as $customerSite)
-        <a href="{{ route('customer_sites.show', [$customerSite]) }}" class="col-md-6 col-lg-4 col-xl-3 px-1 mb-2 text-decoration-none">
-            <div class="card">
-                <div class="card-body py-2 px-3">
-                    <div class="row">
-                        <div class="col-6 px-1">
-                            {{ $customerSite->name }}
-                        </div>
-                        <div class="col-6 px-1 text-end">
-                            <div class="small" title="{{ __('customer_sites.check_interval') }}: {{ __('time.every') }} {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}">
-                                {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}
-                            </div>
-                            @livewire('uptime-badge', [
-                                'customerSite' => $customerSite,
-                                'uptimePoll' => request('uptime_poll', 0)
-                            ])
-                        </div>
+    <div class="row mb-2">
+        <div class="col-12">
+            <b>{{ $customerSites['env'] }}</b>
+        </div>
+    </div>
+    @foreach ($customerSites['data'] as $customerSite)
+    <a href="{{ route('customer_sites.show', [$customerSite]) }}" class="col-md-6 col-lg-4 col-xl-3 px-1 mb-2 text-decoration-none">
+        <div class="card">
+            <div class="card-body py-2 px-3">
+                <div class="row">
+                    <div class="col-6 px-1">
+                        {{ $customerSite->name }}
                     </div>
-                    <div class="row">
-                        <div class="col-12 px-1">
-                            <span class="badge bg-secondary">{{ $customerSite->vendor->name }}</span>
-                            {!! $customerSite->type->html_slug !!}
+                    <div class="col-6 px-1 text-end">
+                        <div class="small" title="{{ __('customer_sites.check_interval') }}: {{ __('time.every') }} {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}">
+                            {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}
                         </div>
+                        @livewire('uptime-badge', [
+                            'customerSite' => $customerSite,
+                            'uptimePoll' => request('uptime_poll', 0)
+                        ])
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 px-1">
+                        <span class="badge bg-secondary">{{ $customerSite->vendor->name }}</span>
+                        {!! $customerSite->type->html_slug !!}
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
+    </a>
     @endforeach
 </div>
+@endforeach
 @endsection
 
 @push('styles')
