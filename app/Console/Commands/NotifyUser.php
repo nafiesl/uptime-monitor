@@ -32,7 +32,7 @@ class NotifyUser extends Command
                 ->where('customer_site_id', $customerSite->id)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
-                ->get(['response_time', 'status_code', 'created_at']);
+                ->get(['response_time', 'status_code', 'visibility', 'created_at']);
             $responseTimeAverage = $responseTimes->avg('response_time');
             if ($responseTimeAverage >= ($customerSite->down_threshold * 0.9)) {
                 // DETERMINE IS WEBISTE SLOW OR DOWN
