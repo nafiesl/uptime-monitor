@@ -82,7 +82,7 @@ class RunCheck implements ShouldQueue
                     ->where('customer_site_id', $customerSite->id)
                     ->orderBy('created_at', 'desc')
                     ->take(5)
-                    ->get(['response_time', 'status_code', 'visibility', 'created_at']);
+                    ->get(['response_time', 'status_code', 'created_at']);
                 
                 notifyTelegramUser($customerSite, $responseTimes, $notifyStatus);
                 $customerSite->last_notify_user_at = Carbon::now();
