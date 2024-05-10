@@ -14,14 +14,16 @@ class MonitorURLs extends Command
 
     public function handle()
     {
-        $customerSites = CustomerSite::where('is_active', 1)->get(); // Add your desired URLs here
+        $customerSites = CustomerSite::where('is_active', 1)
+            ->orderByRaw("FIELD (priority_code, 'high', 'normal', 'low')")
+            ->get(); // Add your desired URLs here
 
         foreach ($customerSites as $customerSite) {
             if (!$customerSite->needToCheck()) {
                 continue;
             }
 
-            RunCheck::dispatch($customerSite);
+            dispatch(new RunCheck($customerSite));
         }
 
         $this->info('URLs monitored successfully.');
