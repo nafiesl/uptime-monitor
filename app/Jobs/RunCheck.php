@@ -28,6 +28,7 @@ class RunCheck implements ShouldQueue
     public function handle(): void
     {
         $force_notify = false;
+        $notifyStatus = "Down";
 
         $customerSite = $this->customerSite;
         $start = microtime(true);
@@ -58,6 +59,12 @@ class RunCheck implements ShouldQueue
         $end = microtime(true);
         $responseTime = round(($end - $start) * 1000); // Calculate response time in milliseconds
 
+        // WHEN RESPONSE TIME ABOVE "DOWN" THRESHOLD, EVEN IF HTTP STATUS CODE IS 200, NOTIFY USER
+        if ($statusCode == 200 && $responseTime >= ($customerSite->down_threshold / 1000)) {
+            $force_notify = true;
+            $notifyStatus = "Hit Down Threshold";
+        }
+
         // Log the monitoring result to the database
         MonitoringLog::create([
             'customer_site_id' => $customerSite->id,
@@ -77,7 +84,7 @@ class RunCheck implements ShouldQueue
                     ->take(5)
                     ->get(['response_time', 'status_code', 'created_at']);
                 
-                notifyTelegramUser($customerSite, $responseTimes, "Down");
+                notifyTelegramUser($customerSite, $responseTimes, $notifyStatus);
                 $customerSite->last_notify_user_at = Carbon::now();
                 $customerSite->save();
             }
