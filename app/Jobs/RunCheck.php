@@ -32,7 +32,12 @@ class RunCheck implements ShouldQueue
         $customerSite = $this->customerSite;
         $start = microtime(true);
         try {
-            $customerSiteTimeout = $customerSite->down_threshold / 1000;
+            if (config('queue.default') == 'sync') {
+                $customerSiteTimeout = $customerSite->down_threshold / 1000;
+            } else {
+                $customerSiteTimeout = 30;
+            }
+            
             $response = Http::timeout($customerSiteTimeout)
                 ->connectTimeout(20)
                 ->get($customerSite->url);
