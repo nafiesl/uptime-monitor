@@ -13,6 +13,9 @@
                     <div class="col-md-8">
                         {!! FormField::text('name', ['required' => true, 'label' => __('customer_site.name'), 'placeholder' => 'Example Web']) !!}
                     </div>
+                    <div class="col-md-8">
+                        {!! FormField::text('webhook_url', ['required' => false, 'label' => __('customer_site.webhook'), 'placeholder' => 'Example Web']) !!}
+                    </div>
                     <div class="col-md-4">
                         {!! FormField::select('vendor_id', $availableVendors, ['label' => __('vendor.vendor')]) !!}
                     </div>

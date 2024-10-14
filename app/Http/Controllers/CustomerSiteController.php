@@ -47,6 +47,7 @@ class CustomerSiteController extends Controller
 
         $newCustomerSite = $request->validate([
             'name' => 'required|max:60',
+            'webhook_url' => 'nullable',
             'url' => 'required|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
         ]);
@@ -97,6 +98,7 @@ class CustomerSiteController extends Controller
         $customerSiteData = $request->validate([
             'name' => 'required|max:60',
             'url' => 'required|max:255',
+            'webhook_url' => 'nullable',
             'vendor_id' => 'nullable|exists:vendors,id',
             'is_active' => 'required|in:0,1',
             'check_interval' => ['required', 'numeric', 'min:1', 'max:60'],

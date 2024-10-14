@@ -3,6 +3,7 @@
 return [
     // Labels
     'customer_site' => 'Customer Site',
+    // 'webhook' => 'Webhook',
     'list' => 'Customer Site List',
     'search' => 'Search Customer Site',
     'search_text' => 'Title ...',
@@ -31,6 +32,7 @@ return [
     // Attributes
     'name' => 'Site Name',
     'url' => 'Site URL',
+    'webhook' => 'Webhook URL',
     'check_interval' => 'Check Interval',
     'priority_code' => 'Priority',
     'warning_threshold' => 'Warning Threshold',

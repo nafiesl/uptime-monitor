@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Spatie\DiscordAlerts\Facades\DiscordAlert;
 
 class NotifyUser extends Command
 {
@@ -18,9 +19,9 @@ class NotifyUser extends Command
 
     public function handle(): void
     {
-        if (empty(config('services.telegram_notifier.token'))) {
-            return;
-        }
+        // if (empty(config('services.telegram_notifier.token'))) {
+        //     return;
+        // }
 
         $customerSites = CustomerSite::where('is_active', 1)->get();
 
@@ -28,13 +29,15 @@ class NotifyUser extends Command
             if (!$customerSite->canNotifyUser()) {
                 continue;
             }
+            
             $responseTimes = MonitoringLog::query()
                 ->where('customer_site_id', $customerSite->id)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
                 ->get(['response_time', 'created_at']);
-            $responseTimeAverage = $responseTimes->avg('response_time');
-            if ($responseTimes->avg('response_time') >= ($customerSite->down_threshold * 0.9)) {
+                $responseTimeAverage = $responseTimes->avg('response_time');
+                
+            if ($responseTimeAverage >= ($customerSite->down_threshold * 0.9)) {
                 $this->notifyUser($customerSite, $responseTimes);
                 $customerSite->last_notify_user_at = Carbon::now();
                 $customerSite->save();
@@ -52,12 +55,11 @@ class NotifyUser extends Command
         }
 
         $telegramChatId = $customerSite->owner->telegram_chat_id;
-        if (is_null($telegramChatId)) {
-            Log::channel('daily')->info('Missing telegram_chat_id form owner', $customerSite->toArray());
-            return;
-        }
+        // if (is_null($telegramChatId)) {
+        //     Log::channel('daily')->info('Missing telegram_chat_id form owner', $customerSite->toArray());
+        //     return;
+        // }
 
-        $endpoint = 'https://api.telegram.org/bot'.config('services.telegram_notifier.token').'/sendMessage';
         $text = "";
         $text .= "Uptime: Website Down";
         $text .= "\n\n".$customerSite->name.' ('.$customerSite->url.')';
@@ -69,9 +71,33 @@ class NotifyUser extends Command
         }
         $text .= "\nCheck here:";
         $text .= "\n".route('customer_sites.show', [$customerSite->id]);
-        Http::post($endpoint, [
-            'chat_id' => $telegramChatId,
-            'text' => $text,
-        ]);
+        
+        if (isset($telegramChatId)) {
+            $endpoint = 'https://api.telegram.org/bot'.config('services.telegram_notifier.token').'/sendMessage';
+            Http::post($endpoint, [
+                'chat_id' => $telegramChatId,
+                'text' => $text,
+            ]);
+        }
+
+
+        $discordWebhook = $customerSite->webhook_url;
+
+        if (is_null($discordWebhook)) {
+            Log::channel('daily')->info('Missing webhook_url form owner', $customerSite->toArray());
+            return;
+        }
+
+        DiscordAlert::to($discordWebhook)
+        ->message("Issues : {$customerSite->name} {$customerSite->url} !",
+        [[
+            'title' => 'Uptime: Website Down',
+            'description' => $text,
+            'color' => '#E77625',
+            'author' => [
+                'name' => 'Spatie',
+                'url' => 'https://spatie.be/'
+            ]    
+        ]]);
     }
 }

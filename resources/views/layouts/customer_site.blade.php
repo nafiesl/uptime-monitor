@@ -21,6 +21,7 @@
                     <tbody>
                         <tr><td>{{ __('customer_site.name') }}</td><td>{{ $customerSite->name }}</td></tr>
                         <tr><td>{{ __('customer_site.url') }}</td><td><a target="_blank" href="{{ $customerSite->url }}">{{ $customerSite->url }}</a></td></tr>
+                        <tr><td>{{ __('customer_site.webhook') }}</td><td><a target="_blank" >{{ $customerSite->webhook_url }}</a></td></tr>
                         <tr><td>{{ __('vendor.vendor') }}</td><td>{{ $customerSite->vendor->name }}</td></tr>
                         <tr><td>{{ __('app.status') }}</td><td>{{ $customerSite->is_active }}</td></tr>
                         <tr>
