@@ -35,9 +35,11 @@ class RunCheck implements ShouldQueue
                 ->connectTimeout(20)
                 ->get($customerSite->url);
             $statusCode = $response->status();
+
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
             $statusCode = 500;
+
         } catch (RequestException $e) {
             Log::channel('daily')->error($e);
             $statusCode = 500;
