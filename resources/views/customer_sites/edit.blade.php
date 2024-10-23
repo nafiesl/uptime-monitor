@@ -14,6 +14,8 @@
                     <p>{{ $customerSite->name }}</p>
                     <label class="control-label text-primary">{{ __('customer_site.url') }}</label>
                     <p>{{ $customerSite->url }}</p>
+                    <label class="control-label text-primary">{{ __('customer_site.webhook') }}</label>
+                    <p>{{ $customerSite->webhook_url }}</p>
                     <label class="control-label text-primary">{{ __('app.status') }}</label>
                     <p>{{ $customerSite->is_active }}</p>
                     {!! $errors->first('customer_site_id', '<span class="form-error small">:message</span>') !!}
@@ -45,6 +47,7 @@
                     </div>
                 </div>
                 {!! FormField::text('url', ['label' => __('customer_site.url')]) !!}
+                {!! FormField::text('webhook_url', ['label' => __('customer_site.webhook')]) !!}
                 <div class="row">
                     <div class="col-md-5">
                         {!! FormField::text('check_interval', [

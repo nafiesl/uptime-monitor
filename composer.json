@@ -12,7 +12,8 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "livewire/livewire": "^2.0",
-        "luthfi/formfield": "^3.0"
+        "luthfi/formfield": "^3.0",
+        "spatie/laravel-discord-alerts": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

@@ -12,7 +12,7 @@ class CustomerSite extends Model
 
     protected $fillable = [
         'name', 'url', 'vendor_id', 'is_active', 'owner_id', 'check_interval', 'priority_code',
-        'warning_threshold', 'down_threshold', 'notify_user_interval', 'last_check_at',
+        'warning_threshold', 'down_threshold', 'notify_user_interval', 'last_check_at', 'webhook_url'
     ];
 
     protected $casts = [

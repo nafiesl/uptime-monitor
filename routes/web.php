@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\CustomerSiteController;
-use App\Http\Controllers\MonitoringController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
