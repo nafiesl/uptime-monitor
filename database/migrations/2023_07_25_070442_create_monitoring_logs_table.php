@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('url');
             $table->integer('response_time')->nullable();
             $table->integer('status_code')->nullable();
+            $table->text('response_message')->nullable();
             $table->timestamps();
 
             $table->index(['customer_site_id', 'created_at'], 'logs_customer_site_id_created_at_index');

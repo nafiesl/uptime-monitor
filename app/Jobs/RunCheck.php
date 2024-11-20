@@ -30,6 +30,7 @@ class RunCheck implements ShouldQueue
     {
         $customerSite = $this->customerSite;
         $start = microtime(true);
+        $responseMessage = null;
         try {
             $customerSiteTimeout = $customerSite->down_threshold / 1000;
             $response = Http::timeout($customerSiteTimeout)
@@ -38,12 +39,15 @@ class RunCheck implements ShouldQueue
             $statusCode = $response->status();
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
+            $responseMessage = $e->getMessage();
             $statusCode = 500;
         } catch (RequestException $e) {
             Log::channel('daily')->error($e);
+            $responseMessage = $e->getMessage();
             $statusCode = 500;
         } catch (GuzzleRequestException $e) {
             Log::channel('daily')->error($e);
+            $responseMessage = $e->getMessage();
             $statusCode = 500;
         }
         $end = microtime(true);
@@ -55,6 +59,7 @@ class RunCheck implements ShouldQueue
             'url' => $customerSite->url,
             'response_time' => $responseTime,
             'status_code' => $statusCode,
+            'response_message' => $responseMessage,
         ]);
         $customerSite->last_check_at = Carbon::now();
         $customerSite->save();
