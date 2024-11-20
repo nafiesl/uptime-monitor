@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,6 +40,9 @@ class RunCheck implements ShouldQueue
             Log::channel('daily')->error($e);
             $statusCode = 500;
         } catch (RequestException $e) {
+            Log::channel('daily')->error($e);
+            $statusCode = 500;
+        } catch (GuzzleRequestException $e) {
             Log::channel('daily')->error($e);
             $statusCode = 500;
         }
