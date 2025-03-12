@@ -32,7 +32,7 @@ class NotifyUser extends Command
                 ->where('customer_site_id', $customerSite->id)
                 ->orderBy('created_at', 'desc')
                 ->take(5)
-                ->get(['response_time', 'created_at']);
+                ->get(['response_time', 'status_code', 'created_at']);
             $responseTimeAverage = $responseTimes->avg('response_time');
             if ($responseTimes->avg('response_time') >= ($customerSite->down_threshold * 0.9)) {
                 $this->notifyUser($customerSite, $responseTimes);
@@ -65,6 +65,7 @@ class NotifyUser extends Command
         $text .= "\n";
         foreach ($responseTimes as $responseTime) {
             $text .= $responseTime->created_at->format('H:i:s').':   '.$responseTime->response_time.' ms';
+            $text .= '   (status code: '.$responseTime->status_code.')';
             $text .= "\n";
         }
         $text .= "\nCheck here:";
