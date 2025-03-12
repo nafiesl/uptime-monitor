@@ -34,7 +34,7 @@ class NotifyUser extends Command
                 ->take(5)
                 ->get(['response_time', 'status_code', 'created_at']);
             $responseTimeAverage = $responseTimes->avg('response_time');
-            if ($responseTimes->avg('response_time') >= ($customerSite->down_threshold * 0.9)) {
+            if ($responseTimes->avg('response_time') >= ($customerSite->down_threshold * 0.9) || $responseTimes->avg('status_code') >= 400) {
                 $this->notifyUser($customerSite, $responseTimes);
                 $customerSite->last_notify_user_at = Carbon::now();
                 $customerSite->save();
