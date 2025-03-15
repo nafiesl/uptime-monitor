@@ -6,7 +6,7 @@ use App\Models\MonitoringLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CustomerSite extends Model
+class Site extends Model
 {
     use HasFactory;
 

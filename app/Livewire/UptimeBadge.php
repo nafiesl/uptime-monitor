@@ -2,22 +2,22 @@
 
 namespace App\Livewire;
 
-use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
+use App\Models\Site;
 use Livewire\Component;
 
 class UptimeBadge extends Component
 {
     public $uptimePoll = 0;
     public $uptimePollState = null;
-    public $customerSite;
+    public $site;
     public $monitoringLogs;
 
     public function mount()
     {
-        $customerSite = $this->customerSite;
+        $site = $this->site;
         if ($this->uptimePoll == 1) {
-            $checkPeriodeInSeconds = $customerSite->check_interval * 60;
+            $checkPeriodeInSeconds = $site->check_interval * 60;
             $this->uptimePollState = 'wire:poll.'.($checkPeriodeInSeconds).'s';
         }
     }
@@ -27,15 +27,15 @@ class UptimeBadge extends Component
         return view('livewire.uptime_badge');
     }
 
-    private function getCustomerSiteMonitoringLogs(CustomerSite $customerSite)
+    private function getSiteMonitoringLogs(Site $site)
     {
-        $monitoringLogs = $customerSite->monitoringLogs()
+        $monitoringLogs = $site->monitoringLogs()
             ->latest('id')
             ->take(15)
             ->get(['response_time', 'status_code', 'created_at'])
             ->sortKeysDesc()
-            ->map(function ($monitoringLog) use ($customerSite) {
-                $monitoringLog->uptime_badge_bg_color = $this->getUptimeBadgeBgColor($customerSite, $monitoringLog);
+            ->map(function ($monitoringLog) use ($site) {
+                $monitoringLog->uptime_badge_bg_color = $this->getUptimeBadgeBgColor($site, $monitoringLog);
                 $monitoringLog->uptime_badge_title = $this->getUptimeBadgeTitle($monitoringLog);
 
                 return $monitoringLog;
@@ -43,7 +43,7 @@ class UptimeBadge extends Component
         return $monitoringLogs;
     }
 
-    private function getUptimeBadgeBgColor(CustomerSite $customerSite, MonitoringLog $monitoringLog): string
+    private function getUptimeBadgeBgColor(Site $site, MonitoringLog $monitoringLog): string
     {
         if ($monitoringLog->status_code >= 500) {
             return 'danger';
@@ -51,13 +51,13 @@ class UptimeBadge extends Component
         if ($monitoringLog->status_code >= 400) {
             return 'danger';
         }
-        if ($monitoringLog->response_time >= $customerSite->down_threshold) {
+        if ($monitoringLog->response_time >= $site->down_threshold) {
             return 'danger';
         }
         if ($monitoringLog->status_code >= 300) {
             return 'warning';
         }
-        if ($monitoringLog->response_time >= $customerSite->warning_threshold) {
+        if ($monitoringLog->response_time >= $site->warning_threshold) {
             return 'warning';
         }
 

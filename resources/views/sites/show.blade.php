@@ -1,8 +1,8 @@
-@extends('layouts.customer_site')
+@extends('layouts.site')
 
-@section('customer_site_content')
+@section('site_content')
 <div class="pt-0">
-    <div id="chart_timeline_{{ $customerSite->id }}"></div>
+    <div id="chart_timeline_{{ $site->id }}"></div>
 </div>
 @endsection
 
@@ -24,7 +24,7 @@
         },
         annotations: {
             yaxis: [{
-                y: {{ $customerSite->warning_threshold }},
+                y: {{ $site->warning_threshold }},
                 borderColor: 'orange',
                 label: {
                     show: true,
@@ -35,7 +35,7 @@
                     }
                 }
             }, {
-                y: {{ $customerSite->down_threshold }},
+                y: {{ $site->down_threshold }},
                 borderColor: 'red',
                 label: {
                     show: true,
@@ -62,11 +62,11 @@
             },
         },
         yaxis: {
-            tickAmount: {{ $customerSite->y_axis_tick_amount }},
+            tickAmount: {{ $site->y_axis_tick_amount }},
             title: {
                 text: 'Miliseconds',
             },
-            max: {{ $customerSite->y_axis_max }},
+            max: {{ $site->y_axis_max }},
             min: 0,
         },
         stroke: {
@@ -79,7 +79,7 @@
         },
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $customerSite->id }}"), options);
+    var chart = new ApexCharts(document.querySelector("#chart_timeline_{{ $site->id }}"), options);
     chart.render();
 </script>
 @endpush

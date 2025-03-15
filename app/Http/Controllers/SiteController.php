@@ -3,61 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\RunCheck;
-use App\Models\CustomerSite;
+use App\Models\Site;
 use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
-class CustomerSiteController extends Controller
+class SiteController extends Controller
 {
     public function index(Request $request)
     {
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
         $availableVendors = ['null' => 'n/a'] + $availableVendors;
 
-        $customerSiteQuery = CustomerSite::query();
-        $customerSiteQuery->where('name', 'like', '%'.$request->get('q').'%');
-        $customerSiteQuery->orderBy('name');
-        $customerSiteQuery->where('owner_id', auth()->id());
+        $siteQuery = Site::query();
+        $siteQuery->where('name', 'like', '%'.$request->get('q').'%');
+        $siteQuery->orderBy('name');
+        $siteQuery->where('owner_id', auth()->id());
         if ($vendorId = $request->get('vendor_id')) {
             if ($vendorId == 'null') {
-                $customerSiteQuery->whereNull('vendor_id');
+                $siteQuery->whereNull('vendor_id');
             } else {
-                $customerSiteQuery->where('vendor_id', $vendorId);
+                $siteQuery->where('vendor_id', $vendorId);
             }
         }
-        $customerSites = $customerSiteQuery->with('vendor')->paginate(25);
+        $sites = $siteQuery->with('vendor')->paginate(25);
 
-        return view('customer_sites.index', compact('customerSites', 'availableVendors'));
+        return view('sites.index', compact('sites', 'availableVendors'));
     }
 
     public function create()
     {
-        $this->authorize('create', new CustomerSite);
+        $this->authorize('create', new Site);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.create', compact('availableVendors'));
+        return view('sites.create', compact('availableVendors'));
     }
 
     public function store(Request $request)
     {
-        $this->authorize('create', new CustomerSite);
+        $this->authorize('create', new Site);
 
-        $newCustomerSite = $request->validate([
+        $newSite = $request->validate([
             'name' => 'required|max:60',
             'url' => 'required|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
         ]);
-        $newCustomerSite['owner_id'] = auth()->id();
+        $newSite['owner_id'] = auth()->id();
 
-        $customerSite = CustomerSite::create($newCustomerSite);
+        $site = Site::create($newSite);
 
-        return redirect()->route('customer_sites.show', $customerSite);
+        return redirect()->route('sites.show', $site);
     }
 
-    public function show(Request $request, CustomerSite $customerSite)
+    public function show(Request $request, Site $site)
     {
         $timeRange = request('time_range', '1h');
         $startTime = $this->getStartTimeByTimeRage($timeRange);
@@ -70,7 +70,7 @@ class CustomerSiteController extends Controller
             $endTime = Carbon::parse($request->get('end_time'));
         }
         $logQuery = DB::table('monitoring_logs');
-        $logQuery->where('customer_site_id', $customerSite->id);
+        $logQuery->where('site_id', $site->id);
         $logQuery->whereBetween('created_at', [$startTime, $endTime]);
         $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
 
@@ -79,22 +79,22 @@ class CustomerSiteController extends Controller
             $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
         }
 
-        return view('customer_sites.show', compact('customerSite', 'chartData', 'startTime', 'endTime', 'timeRange'));
+        return view('sites.show', compact('site', 'chartData', 'startTime', 'endTime', 'timeRange'));
     }
 
-    public function edit(CustomerSite $customerSite)
+    public function edit(Site $site)
     {
-        $this->authorize('update', $customerSite);
+        $this->authorize('update', $site);
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id');
 
-        return view('customer_sites.edit', compact('customerSite', 'availableVendors'));
+        return view('sites.edit', compact('site', 'availableVendors'));
     }
 
-    public function update(Request $request, CustomerSite $customerSite)
+    public function update(Request $request, Site $site)
     {
-        $this->authorize('update', $customerSite);
+        $this->authorize('update', $site);
 
-        $customerSiteData = $request->validate([
+        $siteData = $request->validate([
             'name' => 'required|max:60',
             'url' => 'required|max:255',
             'vendor_id' => 'nullable|exists:vendors,id',
@@ -105,25 +105,25 @@ class CustomerSiteController extends Controller
             'down_threshold' => ['required', 'numeric', 'min:2000', 'max:60000'],
             'notify_user_interval' => ['required', 'numeric', 'min:0', 'max:60'],
         ]);
-        $customerSite->update($customerSiteData);
+        $site->update($siteData);
 
-        return redirect()->route('customer_sites.show', $customerSite);
+        return redirect()->route('sites.show', $site);
     }
 
-    public function destroy(Request $request, CustomerSite $customerSite)
+    public function destroy(Request $request, Site $site)
     {
-        $this->authorize('delete', $customerSite);
+        $this->authorize('delete', $site);
 
-        $request->validate(['customer_site_id' => 'required']);
+        $request->validate(['site_id' => 'required']);
 
-        if ($request->get('customer_site_id') == $customerSite->id && $customerSite->delete()) {
-            return redirect()->route('customer_sites.index');
+        if ($request->get('site_id') == $site->id && $site->delete()) {
+            return redirect()->route('sites.index');
         }
 
         return back();
     }
 
-    public function timeline(Request $request, CustomerSite $customerSite)
+    public function timeline(Request $request, Site $site)
     {
         $timeRange = request('time_range', '1h');
         $startTime = $this->getStartTimeByTimeRage($timeRange);
@@ -136,11 +136,11 @@ class CustomerSiteController extends Controller
             $endTime = Carbon::parse($request->get('end_time'));
         }
         $logQuery = DB::table('monitoring_logs');
-        $logQuery->where('customer_site_id', $customerSite->id);
+        $logQuery->where('site_id', $site->id);
         $logQuery->whereBetween('created_at', [$startTime, $endTime]);
         $monitoringLogs = $logQuery->latest()->paginate(60);
 
-        return view('customer_sites.timeline', compact('customerSite', 'monitoringLogs', 'startTime', 'endTime', 'timeRange'));
+        return view('sites.timeline', compact('site', 'monitoringLogs', 'startTime', 'endTime', 'timeRange'));
     }
 
     private function getStartTimeByTimeRage(string $timeRange): Carbon
@@ -157,9 +157,9 @@ class CustomerSiteController extends Controller
         }
     }
 
-    public function checkNow(Request $request, CustomerSite $customerSite)
+    public function checkNow(Request $request, Site $site)
     {
-        RunCheck::dispatch($customerSite);
+        RunCheck::dispatch($site);
 
         return back();
     }

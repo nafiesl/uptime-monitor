@@ -1,6 +1,6 @@
-@extends('layouts.customer_site')
+@extends('layouts.site')
 
-@section('customer_site_content')
+@section('site_content')
 <div class="pt-2">
     <table class="table table-sm">
         <thead>
