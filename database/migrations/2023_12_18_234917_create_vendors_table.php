@@ -16,14 +16,14 @@ class CreateVendorsTable extends Migration
             $table->timestamps();
         });
 
-        if (!Schema::hasColumn('customer_sites', 'vendor_id')) {
-            Schema::table('customer_sites', function (Blueprint $table) {
+        if (!Schema::hasColumn('sites', 'vendor_id')) {
+            Schema::table('sites', function (Blueprint $table) {
                 $table->unsignedBigInteger('vendor_id')->nullable()->after('owner_id');
 
                 $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('restrict');
             });
         } else {
-            Schema::table('customer_sites', function (Blueprint $table) {
+            Schema::table('sites', function (Blueprint $table) {
                 $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('restrict');
             });
         }

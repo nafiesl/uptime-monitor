@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\RunCheck;
-use App\Models\CustomerSite;
+use App\Models\Site;
 use Illuminate\Console\Command;
 
 class MonitorURLs extends Command
@@ -14,14 +14,14 @@ class MonitorURLs extends Command
 
     public function handle()
     {
-        $customerSites = CustomerSite::where('is_active', 1)->get(); // Add your desired URLs here
+        $sites = Site::where('is_active', 1)->get(); // Add your desired URLs here
 
-        foreach ($customerSites as $customerSite) {
-            if (!$customerSite->needToCheck()) {
+        foreach ($sites as $site) {
+            if (!$site->needToCheck()) {
                 continue;
             }
 
-            RunCheck::dispatch($customerSite);
+            RunCheck::dispatch($site);
         }
 
         $this->info('URLs monitored successfully.');

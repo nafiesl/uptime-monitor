@@ -37,7 +37,7 @@
                                 <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('customer_sites.index') }}">{{ __('customer_site.customer_site') }}</a>
+                                <a class="nav-link" href="{{ route('sites.index') }}">{{ __('site.site') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('vendors.index') }}">{{ __('vendor.vendor') }}</a>

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('monitoring_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_site_id')->constrained();
+            $table->foreignId('site_id')->constrained();
             $table->string('url');
             $table->integer('response_time')->nullable();
             $table->integer('status_code')->nullable();
             $table->text('response_message')->nullable();
             $table->timestamps();
 
-            $table->index(['customer_site_id', 'created_at'], 'logs_customer_site_id_created_at_index');
+            $table->index(['site_id', 'created_at'], 'logs_site_id_created_at_index');
         });
     }
 

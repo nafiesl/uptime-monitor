@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Models\CustomerSite;
 use App\Models\MonitoringLog;
+use App\Models\Site;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException as GuzzleRequestException;
 use Illuminate\Bus\Queueable;
@@ -19,23 +19,23 @@ class RunCheck implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
-    private $customerSite;
+    private $site;
 
-    public function __construct(CustomerSite $customerSite)
+    public function __construct(Site $site)
     {
-        $this->customerSite = $customerSite;
+        $this->site = $site;
     }
 
     public function handle(): void
     {
-        $customerSite = $this->customerSite;
+        $site = $this->site;
         $start = microtime(true);
         $responseMessage = null;
         try {
-            $customerSiteTimeout = $customerSite->down_threshold / 1000;
-            $response = Http::timeout($customerSiteTimeout)
+            $siteTimeout = $site->down_threshold / 1000;
+            $response = Http::timeout($siteTimeout)
                 ->connectTimeout(20)
-                ->get($customerSite->url);
+                ->get($site->url);
             $statusCode = $response->status();
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
@@ -55,13 +55,13 @@ class RunCheck implements ShouldQueue
 
         // Log the monitoring result to the database
         MonitoringLog::create([
-            'customer_site_id' => $customerSite->id,
-            'url' => $customerSite->url,
+            'site_id' => $site->id,
+            'url' => $site->url,
             'response_time' => $responseTime,
             'status_code' => $statusCode,
             'response_message' => $responseMessage,
         ]);
-        $customerSite->last_check_at = Carbon::now();
-        $customerSite->save();
+        $site->last_check_at = Carbon::now();
+        $site->save();
     }
 }

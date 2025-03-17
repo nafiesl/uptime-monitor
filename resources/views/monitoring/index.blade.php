@@ -33,21 +33,21 @@
 </div>
 <br>
 <div class="row mb-4">
-    @foreach ($customerSites as $customerSite)
-        <a href="{{ route('customer_sites.show', [$customerSite]) }}" class="col-md-6 col-lg-4 col-xl-3 px-1 mb-2 text-decoration-none">
+    @foreach ($sites as $site)
+        <a href="{{ route('sites.show', [$site]) }}" class="col-md-6 col-lg-4 col-xl-3 px-1 mb-2 text-decoration-none">
             <div class="card">
                 <div class="card-body py-2 px-3">
                     <div class="row">
                         <div class="col-6 px-1">
-                            {{ $customerSite->name }}<br>
-                            <span class="badge bg-secondary">{{ $customerSite->vendor->name }}</span>
+                            {{ $site->name }}<br>
+                            <span class="badge bg-secondary">{{ $site->vendor->name }}</span>
                         </div>
                         <div class="col-6 px-1 text-end">
-                            <div class="small" title="{{ __('customer_sites.check_interval') }}: {{ __('time.every') }} {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}">
-                                {{ $customerSite->check_interval }} {{ trans_choice('time.minutes', $customerSite->check_interval) }}
+                            <div class="small" title="{{ __('sites.check_interval') }}: {{ __('time.every') }} {{ $site->check_interval }} {{ trans_choice('time.minutes', $site->check_interval) }}">
+                                {{ $site->check_interval }} {{ trans_choice('time.minutes', $site->check_interval) }}
                             </div>
                             @livewire('uptime-badge', [
-                                'customerSite' => $customerSite,
+                                'site' => $site,
                                 'uptimePoll' => request('uptime_poll', 0)
                             ])
                         </div>

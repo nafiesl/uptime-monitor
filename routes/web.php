@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\ProfileController;
-use App\Http\Controllers\CustomerSiteController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,11 +23,11 @@ Auth::routes(['register' => false, 'reset' => false]);
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [MonitoringController::class, 'index'])->name('home');
 
-    Route::get('customer_sites/{customer_site}/timeline', [CustomerSiteController::class, 'timeline'])
-        ->name('customer_sites.timeline');
-    Route::post('customer_sites/{customer_site}/check_now', [CustomerSiteController::class, 'checkNow'])
-        ->name('customer_sites.check_now');
-    Route::resource('customer_sites', CustomerSiteController::class);
+    Route::get('sites/{site}/timeline', [SiteController::class, 'timeline'])
+        ->name('sites.timeline');
+    Route::post('sites/{site}/check_now', [SiteController::class, 'checkNow'])
+        ->name('sites.check_now');
+    Route::resource('sites', SiteController::class);
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
