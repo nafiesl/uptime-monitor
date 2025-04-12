@@ -34,6 +34,7 @@ class RunCheck implements ShouldQueue
         try {
             $siteTimeout = $site->down_threshold / 1000;
             $response = Http::timeout($siteTimeout)
+                ->withHeaders(['User-Agent' => config('app.name')])
                 ->connectTimeout(20)
                 ->get($site->url);
             $statusCode = $response->status();
