@@ -16,7 +16,7 @@ class CreateVendorsTable extends Migration
             $table->timestamps();
         });
 
-        if (!Schema::hasColumn('sites', 'vendor_id')) {
+        if (! Schema::hasColumn('sites', 'vendor_id')) {
             Schema::table('sites', function (Blueprint $table) {
                 $table->unsignedBigInteger('vendor_id')->nullable()->after('owner_id');
 

@@ -9,8 +9,11 @@ use Livewire\Component;
 class UptimeBadge extends Component
 {
     public $uptimePoll = 0;
+
     public $uptimePollState = null;
+
     public $site;
+
     public $monitoringLogs;
 
     public function mount()
@@ -40,6 +43,7 @@ class UptimeBadge extends Component
 
                 return $monitoringLog;
             });
+
         return $monitoringLogs;
     }
 

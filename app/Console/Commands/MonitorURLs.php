@@ -17,7 +17,7 @@ class MonitorURLs extends Command
         $sites = Site::where('is_active', 1)->get(); // Add your desired URLs here
 
         foreach ($sites as $site) {
-            if (!$site->needToCheck()) {
+            if (! $site->needToCheck()) {
                 continue;
             }
 

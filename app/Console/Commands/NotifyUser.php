@@ -25,7 +25,7 @@ class NotifyUser extends Command
         $sites = Site::where('is_active', 1)->get();
 
         foreach ($sites as $site) {
-            if (!$site->canNotifyUser()) {
+            if (! $site->canNotifyUser()) {
                 continue;
             }
             $responseTimes = MonitoringLog::query()
@@ -48,18 +48,20 @@ class NotifyUser extends Command
     {
         if (is_null($site->owner)) {
             Log::channel('daily')->info('Missing customer site owner', $site->toArray());
+
             return;
         }
 
         $telegramChatId = $site->owner->telegram_chat_id;
         if (is_null($telegramChatId)) {
             Log::channel('daily')->info('Missing telegram_chat_id form owner', $site->toArray());
+
             return;
         }
 
         $endpoint = 'https://api.telegram.org/bot'.config('services.telegram_notifier.token').'/sendMessage';
-        $text = "";
-        $text .= "Uptime: Website Down";
+        $text = '';
+        $text .= 'Uptime: Website Down';
         $text .= "\n\n".$site->name.' ('.$site->url.')';
         $text .= "\n\nLast 5 response time:";
         $text .= "\n";

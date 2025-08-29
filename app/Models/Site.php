@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\MonitoringLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,11 +43,11 @@ class Site extends Model
 
     public function needToCheck(): bool
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return false;
         }
 
-        if (!$this->last_check_at) {
+        if (! $this->last_check_at) {
             return true;
         }
 
@@ -61,11 +60,11 @@ class Site extends Model
 
     public function canNotifyUser(): bool
     {
-        if (!$this->is_active) {
+        if (! $this->is_active) {
             return false;
         }
 
-        if (!$this->last_notify_user_at) {
+        if (! $this->last_notify_user_at) {
             return true;
         }
 
