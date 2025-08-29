@@ -35,7 +35,7 @@
                                     </tr>
                                     <tr>
                                         <th class="text-muted">{{ __('app.status') }}</th>
-                                        <td>{{ $site->is_active }}</td>
+                                        <td>{{ $site->is_active ? 'Active' : 'Inactive' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-muted">{{ __('site.check_interval') }}</th>
