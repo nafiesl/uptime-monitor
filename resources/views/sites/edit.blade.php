@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="mb-0">
                                     <label class="form-label text-primary">{{ __('app.status') }}</label>
-                                    <p class="mb-0">{{ $site->is_active }}</p>
+                                    <p class="mb-0">{{ $site->is_active ? 'Active' : 'Inactive' }}</p>
                                 </div>
 
                                 @if ($errors->has('site_id'))

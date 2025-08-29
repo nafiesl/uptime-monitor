@@ -5,9 +5,15 @@
         <div id="chart_timeline_{{ $site->id }}" class="w-100"></div>
     </div>
 @endsection
-
+@push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/5.3.4/apexcharts.min.css"
+        integrity="sha512-IqtQ7LKr3He47p7HjxynmqZfN07VljNkdGyGDdDJ//f1r6bT0IEKQf2CCtSgun/pvbFlNnPDMRrMSQhmSxmSSg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/5.3.4/apexcharts.min.js"
+        integrity="sha512-FImCCel/NA+iTEiLnRklD7hTPfcNdVEwO9niFnKmL/KoSknriTDREY7zdTTgQId1qjbcIEavsyXUlyljCql5cg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         (function() {
             // Data & rentang waktu

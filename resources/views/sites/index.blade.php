@@ -60,7 +60,7 @@
                                     <a target="_blank" rel="noopener" href="{{ $site->url }}">{{ $site->url }}</a>
                                 </td>
                                 <td>{{ $site->vendor->name }}</td>
-                                <td class="text-center">{{ $site->is_active }}</td>
+                                <td class="text-center">{{ $site->is_active ? 'Active' : 'Inactive' }}</td>
                                 <td class="text-center">
                                     @can('view', $site)
                                         {{ link_to_route('sites.show', __('app.show'), [$site], ['id' => 'show-site-' . $site->id]) }}
