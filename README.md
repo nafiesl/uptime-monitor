@@ -79,6 +79,38 @@ In order to get notified in Telegram when the customer sites are down, we need t
     - Set the Notify User Interval field, between 0 to 60.
     - Set the Notify User Interval field to 0 if you don't want to get notified.
 
+## Docker with Laravel Sail
+
+This application supports development using [Laravel Sail](https://laravel.com/docs/10.x/sail), the official Docker environment for Laravel.
+
+### Usage Steps
+
+1. Make sure you have [Docker](https://www.docker.com/products/docker-desktop) installed.
+2. Copy `.env.example` to `.env` if you haven't already.
+3. Install PHP dependencies (only once):
+    ```
+    composer install
+    ```
+4. Build and start the containers:
+    ```
+    bash ./vendor/bin/sail up
+    ```
+5. Run migrations and seeders:
+    ```
+    bash ./vendor/bin/sail artisan migrate --seed
+    ```
+6. Install JavaScript dependencies and build assets:
+    ```
+    ./vendor/bin/sail npm install
+    ./vendor/bin/sail npm run build
+    ```
+7. Run the scheduler worker:
+    ```
+    ./vendor/bin/sail artisan schedule:work
+    ```
+8. Access the application at [http://localhost](http://localhost).
+
+
 ## Screenshot
 
 #### Dashboard
