@@ -1,0 +1,14 @@
+domains:
+  - uptime-monitor
+php_version: "8.4"
+node_version: "22"
+framework: laravel
+framework_version: "12"
+secured: true
+services:
+  - mariadb-11-8:
+      preset: mariadb
+      version: "11.8"
+  - redis
+workers:
+  - vite

@@ -32,11 +32,15 @@ class RunCheck implements ShouldQueue
         $start = microtime(true);
         $responseMessage = null;
         try {
+
+
             $siteTimeout = $site->down_threshold / 1000;
             $response = Http::timeout($siteTimeout)
                 ->connectTimeout(20)
                 ->get($site->url);
             $statusCode = $response->status();
+
+
         } catch (ConnectionException $e) {
             Log::channel('daily')->error($e);
             $responseMessage = $e->getMessage();

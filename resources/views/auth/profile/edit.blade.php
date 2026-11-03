@@ -17,6 +17,14 @@
                             {!! FormField::text('telegram_chat_id', ['label' => __('user.telegram_chat_id')]) !!}
                         </div>
                     </div>
+                    {!! FormField::text('log_retention_months', [
+                        'type' => 'number',
+                        'min' => 1,
+                        'max' => 60,
+                        'required' => true,
+                        'label' => __('user.log_retention_months'),
+                        'info' => ['text' => __('user.log_retention_months_help')],
+                    ]) !!}
                 </div>
                 <div class="card-footer">
                     {{ Form::submit(__('user.profile_update'), ['class' => 'btn btn-warning']) }}
