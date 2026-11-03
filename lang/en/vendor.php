@@ -10,6 +10,7 @@ return [
     'select' => 'Select Vendor',
     'detail' => 'Vendor Detail',
     'not_found' => 'Vendor not found.',
+    'without_vendor' => 'n/a (Tanpa Vendor)',
     'empty' => 'Vendor is empty.',
     'back_to_show' => 'Back to Vendor Detail',
     'back_to_index' => 'Back to Vendor List',
