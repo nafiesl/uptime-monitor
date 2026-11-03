@@ -44,7 +44,7 @@ class MonitoringController extends Controller
                 $siteQuery->where('vendor_id', $vendorId);
             }
         }
-        $sites = $siteQuery->with('vendor')->get();
+        $sites = $siteQuery->with(['vendor', 'latestMonitoringLog'])->get();
 
         $availableVendors = Vendor::orderBy('name')->pluck('name', 'id')->toArray();
         $availableVendors = ['null' => __('vendor.without_vendor')] + $availableVendors;

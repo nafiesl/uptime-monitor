@@ -32,6 +32,29 @@ class Site extends Model
         return $this->hasMany(MonitoringLog::class);
     }
 
+    public function latestMonitoringLog()
+    {
+        return $this->hasOne(MonitoringLog::class)->latestOfMany();
+    }
+
+    public function getStatusColor(MonitoringLog $monitoringLog): string
+    {
+        if ($monitoringLog->status_code >= 400) {
+            return 'danger';
+        }
+        if ($monitoringLog->response_time >= $this->down_threshold) {
+            return 'danger';
+        }
+        if ($monitoringLog->status_code >= 300) {
+            return 'warning';
+        }
+        if ($monitoringLog->response_time >= $this->warning_threshold) {
+            return 'warning';
+        }
+
+        return 'success';
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id')->withDefault(['name' => 'n/a']);
