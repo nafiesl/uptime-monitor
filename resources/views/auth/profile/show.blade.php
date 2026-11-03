@@ -21,6 +21,7 @@
                             @endif
                         </td>
                     </tr>
+                    <tr><td>{{ __('user.log_retention_months') }}</td><td>{{ $user->log_retention_months }}</td></tr>
                 </tbody>
             </table>
             <div class="card-footer">

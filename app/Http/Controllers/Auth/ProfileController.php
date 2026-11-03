@@ -28,6 +28,7 @@ class ProfileController extends Controller
             'name' => 'required|max:60',
             'email' => 'required|max:255|unique:users,email,'.auth()->id(),
             'telegram_chat_id' => 'nullable|string|max:255',
+            'log_retention_months' => 'required|integer|min:1|max:60',
         ]);
 
         $request->user()->update($userData);
