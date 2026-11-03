@@ -33,7 +33,31 @@ class MonitoringDashboard2Test extends TestCase
         $this->see('Blog Pribadi');
         $this->dontSee('Toko Online');
 
+        $this->visitRoute('home', ['uptime_poll' => 1]);
+        $this->see('STOP Monitoring');
+        $this->see('wire:poll.60s');
+
         $this->visitRoute('home', ['q' => 'tidak-ada']);
         $this->see(__('site.not_found'));
+    }
+
+    /** @test */
+    public function home2_shows_site_status_summary_based_on_latest_monitoring_log()
+    {
+        $user = $this->loginAsUser();
+        $upSite = Site::factory()->create(['owner_id' => $user->id]);
+        $downSite = Site::factory()->create(['owner_id' => $user->id]);
+        Site::factory()->create(['owner_id' => $user->id]);
+        $upSite->monitoringLogs()->create(['url' => $upSite->url, 'response_time' => 100, 'status_code' => 200]);
+        $downSite->monitoringLogs()->create(['url' => $downSite->url, 'response_time' => 100, 'status_code' => 500]);
+
+        $this->visitRoute('home');
+        $this->seeElement('.status-dot.status-success');
+        $this->seeElement('.status-dot.status-danger');
+        $this->seeElement('.status-dot.status-secondary');
+        $this->seeInElement('.tile-total .summary-count', '3');
+        $this->seeInElement('.tile-up .summary-count', '1');
+        $this->seeInElement('.tile-down .summary-count', '1');
+        $this->seeInElement('.tile-warning .summary-count', '0');
     }
 }
