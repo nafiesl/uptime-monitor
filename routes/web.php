@@ -21,7 +21,10 @@ Route::view('/', 'auth.login')->middleware('guest');
 Auth::routes(['register' => false, 'reset' => false]);
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', [MonitoringController::class, 'index'])->name('home');
+
+    // Route::get('/home', [MonitoringController::class, 'index'])->name('home');
+
+    Route::get('/home', [MonitoringController::class, 'index2'])->name('home');
 
     Route::get('sites/{site}/timeline', [SiteController::class, 'timeline'])
         ->name('sites.timeline');

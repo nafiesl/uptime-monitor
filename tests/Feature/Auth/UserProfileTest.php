@@ -30,6 +30,7 @@ class UserProfileTest extends TestCase
             'name' => 'User Baru',
             'email' => 'user3@mail.com',
             'telegram_chat_id' => 'telegram-chat-id',
+            'log_retention_months' => 6,
         ]);
 
         $this->seeRouteIs('profile.show');
@@ -40,6 +41,7 @@ class UserProfileTest extends TestCase
             'name' => 'User Baru',
             'email' => 'user3@mail.com',
             'telegram_chat_id' => 'telegram-chat-id',
+            'log_retention_months' => 6,
         ]);
     }
 }

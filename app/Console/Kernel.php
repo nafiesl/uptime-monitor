@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('monitor:urls')->everyMinute();
         $schedule->command('notify-user')->everyMinute();
+        $schedule->command('monitoring-logs:prune')->dailyAt('01:00')->withoutOverlapping();
     }
 
     /**
