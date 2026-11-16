@@ -72,14 +72,18 @@ class SiteController extends Controller
         $logQuery = DB::table('monitoring_logs');
         $logQuery->where('site_id', $site->id);
         $logQuery->whereBetween('created_at', [$startTime, $endTime]);
-        $monitoringLogs = $logQuery->get(['response_time', 'created_at']);
+        $monitoringLogs = $logQuery->get(['response_time', 'status_code', 'created_at']);
 
         $chartData = [];
+        $statusChartData = [];
         foreach ($monitoringLogs as $monitoringLog) {
             $chartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->response_time];
+            if ($monitoringLog->status_code !== null) {
+                $statusChartData[] = ['x' => $monitoringLog->created_at, 'y' => $monitoringLog->status_code];
+            }
         }
 
-        return view('sites.show', compact('site', 'chartData', 'startTime', 'endTime', 'timeRange'));
+        return view('sites.show', compact('site', 'chartData', 'statusChartData', 'startTime', 'endTime', 'timeRange'));
     }
 
     public function edit(Site $site)

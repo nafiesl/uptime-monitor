@@ -13,6 +13,9 @@
         series: [{
             name: 'Response time (ms)',
             data: {!! json_encode($chartData) !!},
+        }, {
+            name: 'Status code',
+            data: {!! json_encode($statusChartData) !!},
         }],
         chart: {
             id: 'line-datetime',
@@ -61,20 +64,40 @@
                 text: 'Datetime',
             },
         },
-        yaxis: {
+        yaxis: [{
             tickAmount: {{ $site->y_axis_tick_amount }},
             title: {
                 text: 'Miliseconds',
             },
             max: {{ $site->y_axis_max }},
             min: 0,
-        },
+        }, {
+            seriesName: 'Status code',
+            opposite: true,
+            tickAmount: 6,
+            max: 600,
+            min: 0,
+            title: {
+                text: 'Status Code',
+            },
+            labels: {
+                formatter: function (value) {
+                    return Math.round(value);
+                }
+            }
+        }],
         stroke: {
-          width: [2]
+          width: [2, 2]
         },
         tooltip: {
+            shared: true,
             x: {
                 format: 'dd MMM HH:mm:ss'
+            },
+            y: {
+                formatter: function (value, opts) {
+                    return opts.seriesIndex === 0 ? value + ' ms' : value;
+                }
             }
         },
     };
