@@ -59,6 +59,8 @@ class SiteController extends Controller
 
     public function show(Request $request, Site $site)
     {
+        $this->authorize('view', $site);
+
         $timeRange = request('time_range', '1h');
         $startTime = $this->getStartTimeByTimeRage($timeRange);
         if ($request->get('start_time')) {
@@ -129,6 +131,8 @@ class SiteController extends Controller
 
     public function timeline(Request $request, Site $site)
     {
+        $this->authorize('view', $site);
+
         $timeRange = request('time_range', '1h');
         $startTime = $this->getStartTimeByTimeRage($timeRange);
         if ($request->get('start_time')) {
@@ -163,6 +167,8 @@ class SiteController extends Controller
 
     public function checkNow(Request $request, Site $site)
     {
+        $this->authorize('view', $site);
+
         RunCheck::dispatch($site);
 
         return back();
